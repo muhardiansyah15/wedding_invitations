@@ -5,8 +5,17 @@
  *   - Execute as: Me
  *   - Who has access: Anyone
  * Spreadsheet TETAP PRIVAT — hanya URL /exec skrip ini yang publik.
+ *
+ * @OnlyCurrentDoc  — izin skrip dibatasi HANYA ke spreadsheet ini,
+ * bukan seluruh Drive/akun. Google menegakkan batas ini saat otorisasi.
  */
 var SHEET_NAME = "RSVP";
+
+/** Cegah formula injection: teks berawalan = + - @ disimpan sebagai teks biasa. */
+function teks_(v) {
+  v = String(v);
+  return /^[=+\-@]/.test(v) ? "'" + v : v;
+}
 
 function lembar_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -44,7 +53,7 @@ function doPost(e) {
     var jumlah = Math.max(1, Math.min(10, parseInt(p.jumlah, 10) || 1));
     var ucapan = String(p.ucapan || "").trim().slice(0, 500);
     if (nama) {
-      lembar_().appendRow([new Date(), nama, hadir, hadir === "Hadir" ? jumlah : 0, ucapan]);
+      lembar_().appendRow([new Date(), teks_(nama), hadir, hadir === "Hadir" ? jumlah : 0, teks_(ucapan)]);
       ok = true;
     }
   } catch (err) {}
