@@ -1,6 +1,6 @@
-# The Wedding of Putri & Wira
+# The Wedding of Putri & Vira
 
-Undangan pernikahan digital **Putri Wahyu Ningsih & Wira** bernuansa adat
+Undangan pernikahan digital **Putri Wahyu Ningsih & Vira** bernuansa adat
 Minangkabau — palet marawa (marun · emas · hitam), ornamen gonjong Rumah
 Gadang, pita motif songket, dan pepatah Minang.
 
@@ -32,8 +32,12 @@ Cari teks `…………` / "menyusul" di `index.html`, lalu isi:
 1. **Nama orang tua** kedua mempelai (section Pasangan Mempelai)
 2. **Waktu & lokasi** Akad dan Resepsi + link Google Maps
    (ganti `href="#"` pada tombol `data-maps`, hapus `aria-disabled`)
-3. **Foto** mempelai & galeri → letakkan di `assets/img/`, ganti
-   placeholder `.photo-frame` / `.g-ph` dengan `<img>`
+3. **Foto** → letakkan file apa adanya (nama & ukuran bebas) ke folder
+   yang sudah disediakan, nanti dioptimalkan & dipasang:
+   - `assets/img/sampul/` — foto sampul/latar cover
+   - `assets/img/mempelai-wanita/` — foto Putri
+   - `assets/img/mempelai-pria/` — foto Vira
+   - `assets/img/galeri/` — foto-foto galeri
 4. **Musik** → simpan sebagai `assets/audio/backsound.mp3`
 5. **Bank & nomor rekening** (section Tando Kasih)
 6. **Nomor WhatsApp keluarga** → variabel `WA_NUMBER` di

@@ -92,6 +92,8 @@ body {
   padding: 24px;
   background:
     radial-gradient(120% 70% at 50% 10%, rgba(212, 175, 55, 0.14), transparent 55%),
+    linear-gradient(180deg, rgba(92, 20, 32, 0.82) 0%, rgba(67, 14, 24, 0.92) 100%),
+    url("../img/sampul/sampul.jpeg") center / cover no-repeat,
     linear-gradient(180deg, var(--marun) 0%, var(--marun-tua) 100%);
   transition: opacity 0.7s ease, visibility 0.7s ease;
 }

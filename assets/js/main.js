@@ -1,4 +1,4 @@
-/* The Wedding of Putri & Wira — interaksi undangan (vanilla JS) */
+/* The Wedding of Putri & Vira — interaksi undangan (vanilla JS) */
 (function () {
   "use strict";
 
@@ -87,7 +87,7 @@
     ev.preventDefault();
     var nama = document.getElementById("wish-name").value.trim();
     var pesan = document.getElementById("wish-msg").value.trim();
-    var teks = "Ucapan & doa untuk Putri & Wira\n\nDari: " + nama + "\n\n" + pesan;
+    var teks = "Ucapan & doa untuk Putri & Vira\n\nDari: " + nama + "\n\n" + pesan;
     var url = WA_NUMBER
       ? "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(teks)
       : "https://wa.me/?text=" + encodeURIComponent(teks);
