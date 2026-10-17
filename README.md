@@ -1,6 +1,6 @@
 # The Wedding of Putri & Vira
 
-Undangan pernikahan digital **Putri Wahyu Ningsih & Vira** bernuansa adat
+Undangan pernikahan digital **Putri Wahyu Nengsih & Vira** bernuansa adat
 Minangkabau — palet marawa (marun · emas · hitam), ornamen gonjong Rumah
 Gadang, pita motif songket, dan pepatah Minang.
 

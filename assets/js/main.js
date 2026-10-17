@@ -81,8 +81,8 @@
   });
 
   /* ---------- Ucapan via WhatsApp ---------- */
-  // GANTI dengan nomor WhatsApp keluarga (format internasional tanpa +, mis. 6281234567890)
-  var WA_NUMBER = "";
+  // Nomor WhatsApp mempelai perempuan
+  var WA_NUMBER = "6283814135137";
   document.getElementById("wish-form").addEventListener("submit", function (ev) {
     ev.preventDefault();
     var nama = document.getElementById("wish-name").value.trim();
