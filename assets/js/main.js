@@ -77,15 +77,20 @@
     document.querySelectorAll("#invitation .gonjong").forEach(function (g) { io.observe(g); });
   }
 
-  /* ---------- Salin nomor rekening ---------- */
-  var copyBtn = document.getElementById("copy-btn");
-  copyBtn.addEventListener("click", function () {
-    var norek = document.getElementById("norek").textContent.replace(/[^0-9]/g, "");
-    navigator.clipboard.writeText(norek).then(function () {
-      document.getElementById("copied-msg").textContent = "✓ Nomor rekening tersalin";
-      setTimeout(function () { document.getElementById("copied-msg").textContent = ""; }, 2500);
+  /* ---------- Salin nomor rekening / e-wallet ---------- */
+  function pasangSalin(btnId, norekId, msgId, label) {
+    var btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var nomor = document.getElementById(norekId).textContent.replace(/[^0-9]/g, "");
+      navigator.clipboard.writeText(nomor).then(function () {
+        document.getElementById(msgId).textContent = label;
+        setTimeout(function () { document.getElementById(msgId).textContent = ""; }, 2500);
+      });
     });
-  });
+  }
+  pasangSalin("copy-btn", "norek", "copied-msg", "✓ Nomor rekening tersalin");
+  pasangSalin("copy-btn-dana", "norek-dana", "copied-msg-dana", "✓ Nomor DANA tersalin");
 
   /* ---------- RSVP & Guest Wall (Google Apps Script) ---------- */
   // Web App Apps Script — spreadsheet RSVP keluarga (tetap privat)
