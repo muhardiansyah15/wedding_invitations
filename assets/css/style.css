@@ -475,6 +475,56 @@ body {
 .wish-note { font-size: 0.75rem; color: var(--krem-redup); text-align: center; margin: 4px 0 0; }
 
 /* --------------------------------------------------------------------------
+   RSVP & guest wall
+   -------------------------------------------------------------------------- */
+.rsvp-pilih { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rsvp-opsi {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--krem);
+  background: rgba(26, 18, 16, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 12px 8px;
+  cursor: pointer;
+}
+.rsvp-opsi[aria-pressed="true"] {
+  color: var(--hitam);
+  background: linear-gradient(180deg, var(--emas-muda), var(--emas));
+  border-color: var(--emas);
+}
+.rsvp-opsi:focus-visible { outline: 2px solid var(--emas); outline-offset: 2px; }
+.wish-form select {
+  font-family: var(--sans); font-size: 0.9rem; color: var(--krem);
+  background: rgba(26, 18, 16, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 11px 13px; width: 100%;
+}
+.btn-gold:disabled { opacity: 0.5; cursor: wait; transform: none; }
+
+.wall { margin-top: 36px; text-align: left; }
+.wall-judul {
+  font-family: var(--serif); font-weight: 600;
+  font-size: 1.1rem; color: var(--emas-muda);
+  text-align: center; margin: 0 0 16px;
+}
+.wall-isi { display: grid; gap: 10px; max-height: 420px; overflow-y: auto; padding-right: 4px; }
+.wall-item {
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: rgba(26, 18, 16, 0.3);
+  padding: 12px 14px;
+}
+.wall-nama { font-weight: 700; font-size: 0.88rem; color: var(--emas-muda); margin: 0; }
+.wall-badge {
+  display: inline-block; margin-left: 8px;
+  font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  padding: 1px 8px; color: var(--krem-redup);
+}
+.wall-badge.hadir { color: var(--emas-muda); border-color: var(--emas); }
+.wall-pesan { margin: 6px 0 0; font-size: 0.85rem; color: var(--krem-redup); line-height: 1.6; }
+
+/* --------------------------------------------------------------------------
    Penutup & footer
    -------------------------------------------------------------------------- */
 .closing-names { font-size: clamp(2.2rem, 9vw, 3rem); margin: 6px 0 4px; }

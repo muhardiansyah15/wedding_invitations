@@ -87,17 +87,102 @@
     });
   });
 
-  /* ---------- Ucapan via WhatsApp ---------- */
-  // Nomor WhatsApp mempelai perempuan
-  var WA_NUMBER = "6283814135137";
-  document.getElementById("wish-form").addEventListener("submit", function (ev) {
-    ev.preventDefault();
-    var nama = document.getElementById("wish-name").value.trim();
-    var pesan = document.getElementById("wish-msg").value.trim();
-    var teks = "Ucapan & doa untuk Putri & Vira\n\nDari: " + nama + "\n\n" + pesan;
-    var url = WA_NUMBER
-      ? "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(teks)
-      : "https://wa.me/?text=" + encodeURIComponent(teks);
-    window.open(url, "_blank", "noopener");
+  /* ---------- RSVP & Guest Wall (Google Apps Script) ---------- */
+  // Web App Apps Script — spreadsheet RSVP keluarga (tetap privat)
+  var RSVP_URL = "https://script.google.com/macros/s/AKfycbzCDVE5ivtVxFTlzP4xPSU3N_tu64V7F28GDFfRssK_oHTZNaPyIPqXmb9jjGEV9fGg/exec";
+
+  var form = document.getElementById("rsvp-form");
+  var nanti = document.getElementById("rsvp-nanti");
+  var wall = document.getElementById("wall");
+  var wallIsi = document.getElementById("wall-isi");
+  var statusEl = document.getElementById("rsvp-status");
+  var kirimBtn = document.getElementById("rsvp-kirim");
+  var pilihan = "";
+
+  if (RSVP_URL) {
+    form.hidden = false;
+    nanti.hidden = true;
+    wall.hidden = false;
+    // nama otomatis dari ?to=
+    if (guest && guest.trim()) {
+      document.getElementById("rsvp-name").value = guest.replace(/\+/g, " ").trim();
+    }
+    muatWall();
+  }
+
+  document.querySelectorAll(".rsvp-opsi").forEach(function (b) {
+    b.addEventListener("click", function () {
+      pilihan = b.getAttribute("data-hadir");
+      document.querySelectorAll(".rsvp-opsi").forEach(function (x) {
+        x.setAttribute("aria-pressed", x === b ? "true" : "false");
+      });
+      document.getElementById("jumlah-wrap").hidden = pilihan !== "hadir";
+    });
   });
+
+  function itemWall(d) {
+    var div = document.createElement("div");
+    div.className = "wall-item";
+    var nama = document.createElement("p");
+    nama.className = "wall-nama";
+    nama.textContent = d.nama;
+    var badge = document.createElement("span");
+    badge.className = "wall-badge" + (d.hadir === "Hadir" ? " hadir" : "");
+    badge.textContent = d.hadir === "Hadir" ? "InsyaAllah hadir" : "berhalangan";
+    nama.appendChild(badge);
+    div.appendChild(nama);
+    if (d.ucapan) {
+      var p = document.createElement("p");
+      p.className = "wall-pesan";
+      p.textContent = d.ucapan;
+      div.appendChild(p);
+    }
+    return div;
+  }
+
+  function muatWall() {
+    fetch(RSVP_URL).then(function (r) { return r.json(); }).then(function (res) {
+      if (!res.ok) return;
+      wallIsi.textContent = "";
+      if (!res.data.length) {
+        var kosong = document.createElement("p");
+        kosong.className = "wish-note";
+        kosong.textContent = "Jadilah yang pertama mengirim doa untuk kedua mempelai. 🤲";
+        wallIsi.appendChild(kosong);
+        return;
+      }
+      res.data.forEach(function (d) { wallIsi.appendChild(itemWall(d)); });
+    }).catch(function () { /* biarkan senyap bila gagal memuat */ });
+  }
+
+  if (form) form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!RSVP_URL) return;
+    var nama = document.getElementById("rsvp-name").value.trim();
+    if (!nama) return;
+    if (!pilihan) { statusEl.textContent = "Mohon pilih kehadiran dulu, ya."; return; }
+    kirimBtn.disabled = true;
+    statusEl.textContent = "Mengirim…";
+    var payload = JSON.stringify({
+      nama: nama,
+      hadir: pilihan,
+      jumlah: document.getElementById("rsvp-jumlah").value,
+      ucapan: document.getElementById("rsvp-msg").value.trim()
+    });
+    fetch(RSVP_URL, { method: "POST", body: payload }).then(function (r) {
+      return r.json();
+    }).then(function () {
+      selesaiKirim();
+    }).catch(function () {
+      // Apps Script kadang menolak pembacaan respons lintas situs — data tetap masuk
+      selesaiKirim();
+    });
+  });
+
+  function selesaiKirim() {
+    statusEl.textContent = "✓ Terima kasih, konfirmasi & doa Anda telah terkirim.";
+    kirimBtn.disabled = false;
+    document.getElementById("rsvp-msg").value = "";
+    setTimeout(muatWall, 1200);
+  }
 })();

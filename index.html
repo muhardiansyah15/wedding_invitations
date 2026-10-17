@@ -221,19 +221,45 @@
       </div>
     </section>
 
-    <!-- ════════ Ucapan & Doa ════════ -->
+    <!-- ════════ RSVP & Ucapan ════════ -->
     <section class="sect wish-sect">
-      <h2 class="sect-title reveal">Ucapan &amp; Doa</h2>
-      <p class="sect-sub reveal">kirimkan doa dan ucapan terbaik untuk kedua mempelai</p>
+      <h2 class="sect-title reveal">Konfirmasi Kehadiran</h2>
+      <p class="sect-sub reveal">mohon konfirmasi kehadiran serta kirimkan doa terbaik untuk kedua mempelai</p>
 
-      <form class="wish-form reveal" id="wish-form">
-        <label for="wish-name">Nama</label>
-        <input id="wish-name" type="text" placeholder="Nama Anda" required>
-        <label for="wish-msg">Ucapan &amp; Doa</label>
-        <textarea id="wish-msg" rows="4" placeholder="Tuliskan ucapan dan doa…" required></textarea>
-        <button class="btn-gold" type="submit">Kirim via WhatsApp</button>
-        <p class="wish-note">Ucapan akan terkirim melalui WhatsApp ke keluarga mempelai.</p>
+      <form class="wish-form reveal" id="rsvp-form" hidden>
+        <label for="rsvp-name">Nama</label>
+        <input id="rsvp-name" type="text" placeholder="Nama Anda" required>
+
+        <label>Kehadiran</label>
+        <div class="rsvp-pilih" role="radiogroup" aria-label="Konfirmasi kehadiran">
+          <button type="button" class="rsvp-opsi" data-hadir="hadir" aria-pressed="false">✓ InsyaAllah Hadir</button>
+          <button type="button" class="rsvp-opsi" data-hadir="tidak" aria-pressed="false">✗ Mohon Maaf, Belum Bisa</button>
+        </div>
+
+        <div id="jumlah-wrap" hidden>
+          <label for="rsvp-jumlah">Jumlah yang hadir</label>
+          <select id="rsvp-jumlah">
+            <option value="1">1 orang</option>
+            <option value="2" selected>2 orang</option>
+            <option value="3">3 orang</option>
+            <option value="4">4 orang</option>
+            <option value="5">5 orang</option>
+          </select>
+        </div>
+
+        <label for="rsvp-msg">Ucapan &amp; Doa</label>
+        <textarea id="rsvp-msg" rows="4" placeholder="Tuliskan ucapan dan doa…"></textarea>
+
+        <button class="btn-gold" type="submit" id="rsvp-kirim">Kirim Konfirmasi &amp; Ucapan</button>
+        <p class="wish-note" id="rsvp-status" role="status"></p>
       </form>
+
+      <p class="wish-note reveal" id="rsvp-nanti">Konfirmasi kehadiran &amp; ucapan akan segera dibuka. 🌙</p>
+
+      <div class="wall reveal" id="wall" hidden>
+        <h3 class="wall-judul">Ucapan &amp; Doa dari Para Tamu</h3>
+        <div class="wall-isi" id="wall-isi" aria-live="polite"></div>
+      </div>
     </section>
 
     <!-- ════════ Penutup ════════ -->

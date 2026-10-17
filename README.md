@@ -44,8 +44,17 @@ Cari teks `…………` / "menyusul" di `index.html`, lalu isi:
    `assets/audio/backsound.mp3` (mis. instrumental Malam Bainai bila
    sudah dapat izin)
 5. **Bank & nomor rekening** (section Tando Kasih)
-6. **Nomor WhatsApp keluarga** → variabel `WA_NUMBER` di
-   `assets/js/main.js`
+6. **RSVP & Guest Wall** → butuh sekali setup (±5 menit, gratis):
+   1. Buka spreadsheet RSVP keluarga → **Extensions → Apps Script**
+   2. Ganti seluruh isi `Code.gs` dengan `tools/apps-script-rsvp.gs`
+      dari repo ini, lalu **Save**
+   3. **Deploy → New deployment → Web app** dengan setelan:
+      *Execute as: Me* · *Who has access: Anyone* → **Deploy** →
+      salin **Web app URL** (berakhiran `/exec`)
+   4. Tempel URL itu ke variabel `RSVP_URL` di `assets/js/main.js`
+   - Spreadsheet **tidak perlu** di-share publik — tetap privat.
+   - Rekap kehadiran & moderasi ucapan: cukup buka spreadsheet-nya;
+     hapus baris = ucapan hilang dari undangan.
 
 ## Menjalankan & deploy
 
