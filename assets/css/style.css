@@ -319,6 +319,20 @@ body {
 .couple { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .person h3 { font-size: clamp(2rem, 8vw, 2.5rem); color: var(--emas-muda); margin: 14px 0 6px; }
 .parents { color: var(--krem-redup); font-size: 0.85rem; margin: 0; line-height: 1.6; }
+.sosmed {
+  margin: 10px 0 0;
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+}
+.sosmed a {
+  color: var(--emas-muda);
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 4px 14px; border-radius: 999px;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  font-size: 0.76rem; text-decoration: none;
+  transition: background 0.25s ease;
+}
+.sosmed a:hover { background: rgba(212, 175, 55, 0.15); }
+.sosmed svg { flex: 0 0 auto; }
 .amp-big { font-size: 3rem; color: var(--emas); line-height: 1; margin: 10px 0; }
 
 .photo-frame {
@@ -537,6 +551,9 @@ body {
   color: var(--krem-redup);
 }
 .foot a { color: var(--emas-muda); }
+.ig-link { margin: 6px 0 0; }
+.ig-link a { text-decoration: none; letter-spacing: 0.03em; }
+.ig-link a:hover { text-decoration: underline; }
 .music-credit { margin: 4px 0 0; font-size: 0.68rem; opacity: 0.8; }
 
 /* --------------------------------------------------------------------------
