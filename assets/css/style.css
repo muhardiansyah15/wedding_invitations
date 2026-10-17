@@ -400,6 +400,7 @@ body {
   color: var(--krem-redup);
 }
 .foot a { color: var(--emas-muda); }
+.music-credit { margin: 4px 0 0; font-size: 0.68rem; opacity: 0.8; }
 
 /* --------------------------------------------------------------------------
    Reveal saat scroll & aksesibilitas gerak

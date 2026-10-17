@@ -38,7 +38,11 @@ Cari teks `…………` / "menyusul" di `index.html`, lalu isi:
    - `assets/img/mempelai-wanita/` — foto Putri
    - `assets/img/mempelai-pria/` — foto Vira
    - `assets/img/galeri/` — foto-foto galeri
-4. **Musik** → simpan sebagai `assets/audio/backsound.mp3`
+4. **Musik** → terpasang: "Rainy Gamelan Chillout" — The Celebz,
+   lisensi CC BY-NC-SA 3.0 (via Internet Archive/Jamendo), kredit ada
+   di footer. Ganti kapan saja dengan menimpa
+   `assets/audio/backsound.mp3` (mis. instrumental Malam Bainai bila
+   sudah dapat izin)
 5. **Bank & nomor rekening** (section Tando Kasih)
 6. **Nomor WhatsApp keluarga** → variabel `WA_NUMBER` di
    `assets/js/main.js`
