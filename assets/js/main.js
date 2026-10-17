@@ -43,7 +43,7 @@
   document.body.style.overflow = "hidden";
 
   /* ---------- Hitung mundur ke resepsi (16 Maret 2027, WIB) ---------- */
-  var target = new Date("2027-03-16T08:00:00+07:00").getTime();
+  var target = new Date("2027-03-17T10:00:00+07:00").getTime();
   var el = {
     hari: document.getElementById("cd-hari"),
     jam: document.getElementById("cd-jam"),
@@ -60,14 +60,21 @@
   tick();
   setInterval(tick, 1000);
 
-  /* ---------- Reveal saat scroll ---------- */
+  /* ---------- Reveal saat scroll: berjenjang + gonjong melukis diri ---------- */
   function revealInit() {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add("tampak"); io.unobserve(e.target); }
       });
     }, { threshold: 0.15 });
-    document.querySelectorAll(".reveal").forEach(function (n) { io.observe(n); });
+    // jeda berjenjang per section, ala preset Rise/Pan
+    document.querySelectorAll(".sect").forEach(function (sect) {
+      sect.querySelectorAll(".reveal").forEach(function (n, i) {
+        n.style.transitionDelay = Math.min(i * 0.12, 0.6) + "s";
+        io.observe(n);
+      });
+    });
+    document.querySelectorAll("#invitation .gonjong").forEach(function (g) { io.observe(g); });
   }
 
   /* ---------- Salin nomor rekening ---------- */

@@ -5,7 +5,7 @@ Minangkabau — palet marawa (marun · emas · hitam), ornamen gonjong Rumah
 Gadang, pita motif songket, dan pepatah Minang.
 
 - **Akad Nikah:** Jumat, 12 Maret 2027
-- **Resepsi (Baralek):** Selasa, 16 Maret 2027
+- **Resepsi (Baralek):** Rabu, 17 Maret 2027 & Kamis, 18 Maret 2027
 
 Situs statis murni (HTML/CSS/JS, tanpa framework) — ringan untuk dibuka
 dari WhatsApp di ponsel.
