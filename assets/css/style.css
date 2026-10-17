@@ -1,0 +1,409 @@
+/* ==========================================================================
+   The Wedding of Putri & Wira — nuansa adat Minangkabau
+   Palet marawa: marun #5c1420 · merah #8c1f28 · emas #d4af37 · hitam #1a1210
+   Gonjong Rumah Gadang sebagai ornamen · pita songket via CSS pattern
+   ========================================================================== */
+
+:root {
+  --marun: #5c1420;
+  --marun-tua: #430e18;
+  --merah: #8c1f28;
+  --emas: #d4af37;
+  --emas-muda: #e9cd7a;
+  --hitam: #1a1210;
+  --krem: #f8f0e0;
+  --krem-redup: rgba(248, 240, 224, 0.75);
+
+  --script: "Great Vibes", cursive;
+  --serif: "Cormorant Garamond", serif;
+  --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--krem);
+  background:
+    radial-gradient(130% 60% at 50% 0%, rgba(212, 175, 55, 0.10), transparent 60%),
+    radial-gradient(120% 50% at 50% 100%, rgba(0, 0, 0, 0.45), transparent 60%),
+    linear-gradient(180deg, var(--marun) 0%, var(--marun-tua) 100%);
+  background-attachment: fixed;
+}
+
+/* Undangan digital dibuka dari WhatsApp — kolom ponsel di tengah */
+#invitation {
+  max-width: 480px;
+  margin: 0 auto;
+  background:
+    linear-gradient(180deg, rgba(26, 18, 16, 0.25), rgba(26, 18, 16, 0.4)),
+    linear-gradient(180deg, var(--marun), var(--marun-tua));
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Ornamen bersama
+   -------------------------------------------------------------------------- */
+.gonjong { width: 180px; color: var(--emas); opacity: 0.95; display: block; margin: 0 auto 10px; }
+.gonjong.big { width: 230px; }
+.gonjong.small { width: 130px; margin-bottom: 4px; }
+
+/* pita songket: belah ketupat emas via gradient — tanpa gambar */
+.songket-band {
+  height: 14px;
+  margin: 22px auto;
+  max-width: 260px;
+  background:
+    repeating-linear-gradient(45deg, var(--emas) 0 2px, transparent 2px 9px),
+    repeating-linear-gradient(-45deg, var(--emas) 0 2px, transparent 2px 9px);
+  opacity: 0.8;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--emas-muda);
+  margin: 0 0 10px;
+}
+
+.script { font-family: var(--script); font-weight: 400; }
+.names {
+  font-size: clamp(2.6rem, 11vw, 3.6rem);
+  color: var(--emas-muda);
+  margin: 0;
+  line-height: 1.15;
+  text-shadow: 0 2px 24px rgba(212, 175, 55, 0.35);
+}
+.names .amp { font-size: 0.65em; color: var(--emas); }
+
+/* --------------------------------------------------------------------------
+   Cover / gerbang
+   -------------------------------------------------------------------------- */
+#cover {
+  position: fixed; inset: 0; z-index: 100;
+  display: grid; place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(120% 70% at 50% 10%, rgba(212, 175, 55, 0.14), transparent 55%),
+    linear-gradient(180deg, var(--marun) 0%, var(--marun-tua) 100%);
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+#cover.terbuka { opacity: 0; visibility: hidden; }
+
+.cover-card {
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  outline: 1px solid rgba(212, 175, 55, 0.18);
+  outline-offset: 6px;
+  padding: clamp(28px, 7vw, 46px) clamp(18px, 6vw, 38px);
+  background: rgba(26, 18, 16, 0.25);
+}
+.cover-date {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  letter-spacing: 0.3em;
+  color: var(--krem);
+  margin: 10px 0 0;
+}
+.kepada { color: var(--krem-redup); font-size: 0.85rem; margin: 0 0 6px; line-height: 1.5; }
+.guest-name {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--emas-muda);
+  margin: 0 0 24px;
+}
+
+.btn-gold {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--hitam);
+  background: linear-gradient(180deg, var(--emas-muda), var(--emas));
+  border: none;
+  border-radius: 999px;
+  padding: 12px 28px;
+  cursor: pointer;
+  box-shadow: 0 8px 26px rgba(212, 175, 55, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(212, 175, 55, 0.45); }
+.btn-gold:focus-visible { outline: 2px solid var(--krem); outline-offset: 3px; }
+
+/* tombol musik melayang */
+#music-btn {
+  position: fixed; right: 16px; bottom: 16px; z-index: 90;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--emas);
+  background: var(--marun-tua);
+  color: var(--emas-muda);
+  font-size: 1.15rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+#music-btn.main { animation: putar 3.5s linear infinite; }
+@keyframes putar { to { transform: rotate(360deg); } }
+
+/* --------------------------------------------------------------------------
+   Section umum
+   -------------------------------------------------------------------------- */
+.sect { padding: 54px 26px; text-align: center; position: relative; }
+.sect + .sect { border-top: 1px solid rgba(212, 175, 55, 0.18); }
+
+.sect-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: var(--emas-muda);
+  margin: 0 0 4px;
+}
+.sect-sub {
+  color: var(--krem-redup);
+  font-size: 0.85rem;
+  margin: 0 auto 26px;
+  max-width: 34ch;
+}
+.hero-date { font-family: var(--serif); font-size: 1.1rem; letter-spacing: 0.12em; margin: 12px 0 0; }
+
+/* --------------------------------------------------------------------------
+   Hitung mundur
+   -------------------------------------------------------------------------- */
+.countdown { display: flex; justify-content: center; gap: 10px; }
+.cd {
+  width: 72px;
+  padding: 14px 6px 10px;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  background: rgba(212, 175, 55, 0.07);
+}
+.cd b {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--emas-muda);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.cd span { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--krem-redup); }
+
+/* --------------------------------------------------------------------------
+   Ayat, pepatah
+   -------------------------------------------------------------------------- */
+.ornament-frame {
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  outline: 1px solid rgba(212, 175, 55, 0.18);
+  outline-offset: 5px;
+  padding: 26px 22px;
+  margin: 0 auto 30px;
+  max-width: 400px;
+}
+.quote { font-family: var(--serif); font-style: italic; font-size: 1.02rem; margin: 0 0 12px; }
+.quote-src { font-size: 0.8rem; letter-spacing: 0.15em; color: var(--emas-muda); margin: 0; }
+
+.pepatah {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--emas-muda);
+  margin: 0 0 6px;
+}
+.pepatah-arti { font-size: 0.8rem; color: var(--krem-redup); margin: 0 0 30px; }
+.salam { font-family: var(--serif); font-weight: 600; font-size: 1.05rem; margin: 0 0 10px; }
+.pembuka { color: var(--krem-redup); max-width: 42ch; margin: 0 auto; font-size: 0.9rem; }
+
+/* --------------------------------------------------------------------------
+   Mempelai
+   -------------------------------------------------------------------------- */
+.couple { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.person h3 { font-size: clamp(2rem, 8vw, 2.5rem); color: var(--emas-muda); margin: 14px 0 6px; }
+.parents { color: var(--krem-redup); font-size: 0.85rem; margin: 0; line-height: 1.6; }
+.amp-big { font-size: 3rem; color: var(--emas); line-height: 1; margin: 10px 0; }
+
+.photo-frame {
+  width: 168px; height: 212px;
+  margin: 0 auto;
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  outline: 1px solid rgba(212, 175, 55, 0.2);
+  outline-offset: 5px;
+  border-radius: 110px 110px 6px 6px; /* lengkung pelaminan */
+  display: grid; place-items: center;
+  background:
+    radial-gradient(80% 60% at 50% 30%, rgba(212, 175, 55, 0.12), transparent 70%),
+    rgba(26, 18, 16, 0.3);
+}
+.photo-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.photo-note { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--krem-redup); }
+
+/* --------------------------------------------------------------------------
+   Acara
+   -------------------------------------------------------------------------- */
+.event-card {
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  outline: 1px solid rgba(212, 175, 55, 0.18);
+  outline-offset: 5px;
+  background: rgba(26, 18, 16, 0.25);
+  max-width: 380px;
+  margin: 0 auto 26px;
+  padding: 26px 22px 28px;
+}
+.event-card h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.45rem;
+  color: var(--emas-muda);
+  margin: 6px 0 10px;
+}
+.ev-date { font-weight: 700; margin: 0 0 2px; }
+.ev-time, .ev-loc { color: var(--krem-redup); font-size: 0.88rem; margin: 0 0 2px; }
+.ev-loc { margin-bottom: 16px; }
+
+.btn-line {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--emas-muda);
+  text-decoration: none;
+  border: 1px solid var(--emas);
+  border-radius: 999px;
+  padding: 9px 22px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.btn-line:hover { background: var(--emas); color: var(--hitam); }
+.btn-line[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
+
+/* --------------------------------------------------------------------------
+   Galeri
+   -------------------------------------------------------------------------- */
+.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.g-ph {
+  aspect-ratio: 3 / 4;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  display: grid; place-items: center;
+  background: rgba(26, 18, 16, 0.3);
+  color: var(--krem-redup);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.g-ph img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --------------------------------------------------------------------------
+   Perjalanan
+   -------------------------------------------------------------------------- */
+.journey {
+  text-align: left;
+  max-width: 360px;
+  margin: 0 auto;
+  border-left: 1px solid rgba(212, 175, 55, 0.45);
+  padding-left: 22px;
+  display: grid; gap: 22px;
+}
+.j-item { position: relative; }
+.j-dot {
+  position: absolute; left: -27px; top: 7px;
+  width: 9px; height: 9px;
+  background: var(--emas);
+  transform: rotate(45deg); /* belah ketupat songket */
+}
+.j-item h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--emas-muda);
+  margin: 0 0 4px;
+}
+.j-item p { color: var(--krem-redup); font-size: 0.88rem; margin: 0; }
+
+/* --------------------------------------------------------------------------
+   Hadiah
+   -------------------------------------------------------------------------- */
+.gift-card {
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  outline: 1px solid rgba(212, 175, 55, 0.18);
+  outline-offset: 5px;
+  background: rgba(26, 18, 16, 0.25);
+  max-width: 340px;
+  margin: 0 auto;
+  padding: 26px 22px;
+}
+.bank { font-weight: 700; letter-spacing: 0.06em; margin: 0 0 6px; }
+.norek {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--emas-muda);
+  letter-spacing: 0.08em;
+  margin: 0 0 2px;
+  font-variant-numeric: tabular-nums;
+}
+.an { color: var(--krem-redup); font-size: 0.85rem; margin: 0 0 18px; }
+.copied { display: block; font-size: 0.78rem; color: var(--emas-muda); margin-top: 10px; min-height: 1.2em; }
+
+/* --------------------------------------------------------------------------
+   Ucapan
+   -------------------------------------------------------------------------- */
+.wish-form {
+  max-width: 360px;
+  margin: 0 auto;
+  text-align: left;
+  display: grid; gap: 8px;
+}
+.wish-form label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--emas-muda); }
+.wish-form input, .wish-form textarea {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--krem);
+  background: rgba(26, 18, 16, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 11px 13px;
+  resize: vertical;
+}
+.wish-form input:focus-visible, .wish-form textarea:focus-visible {
+  outline: 2px solid var(--emas);
+  outline-offset: 1px;
+}
+.wish-form .btn-gold { margin-top: 10px; justify-self: center; }
+.wish-note { font-size: 0.75rem; color: var(--krem-redup); text-align: center; margin: 4px 0 0; }
+
+/* --------------------------------------------------------------------------
+   Penutup & footer
+   -------------------------------------------------------------------------- */
+.closing-names { font-size: clamp(2.2rem, 9vw, 3rem); margin: 6px 0 4px; }
+.family { color: var(--krem-redup); font-size: 0.85rem; margin: 0 0 26px; }
+.foot {
+  text-align: center;
+  padding: 18px 20px 26px;
+  border-top: 1px solid rgba(212, 175, 55, 0.18);
+  font-size: 0.75rem;
+  color: var(--krem-redup);
+}
+.foot a { color: var(--emas-muda); }
+
+/* --------------------------------------------------------------------------
+   Reveal saat scroll & aksesibilitas gerak
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.tampak { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  #music-btn.main { animation: none; }
+  #cover { transition: none; }
+}

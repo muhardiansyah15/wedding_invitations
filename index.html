@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wedding of Putri &amp; Wira</title>
+  <meta name="description" content="Undangan pernikahan Putri Wahyu Ningsih & Wira — Akad Nikah 12 Maret 2027, Resepsi 16 Maret 2027.">
+  <meta property="og:title" content="The Wedding of Putri & Wira">
+  <meta property="og:description" content="Dengan memohon rahmat Allah SWT, kami mengundang Bapak/Ibu/Saudara/i ke pernikahan kami.">
+  <meta name="theme-color" content="#5c1420">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ════════ Cover / Gerbang Undangan ════════ -->
+  <div id="cover">
+    <div class="cover-card">
+      <svg class="gonjong" viewBox="0 0 320 70" aria-hidden="true">
+        <path d="M8 66 Q44 62 62 30 Q66 20 70 30 Q84 58 118 63 Q146 66 152 36 Q156 22 160 10 Q164 22 168 36 Q174 66 202 63 Q236 58 250 30 Q254 20 258 30 Q276 62 312 66"
+              fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <p class="eyebrow">Undangan Pernikahan</p>
+      <h1 class="names script">Putri <span class="amp">&amp;</span> Wira</h1>
+      <p class="cover-date">16 · 03 · 2027</p>
+
+      <div class="songket-band" aria-hidden="true"></div>
+
+      <p class="kepada">Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
+      <p class="guest-name" id="guest-name">Tamu Undangan</p>
+
+      <button id="open-btn" class="btn-gold" type="button">✉ Buka Undangan</button>
+    </div>
+  </div>
+
+  <!-- tombol musik melayang -->
+  <button id="music-btn" aria-label="Putar / jeda musik" hidden>♪</button>
+  <audio id="backsound" src="assets/audio/backsound.mp3" loop preload="none"></audio>
+
+  <main id="invitation" hidden>
+
+    <!-- ════════ Hero ════════ -->
+    <section class="sect hero">
+      <svg class="gonjong big" viewBox="0 0 320 70" aria-hidden="true">
+        <path d="M8 66 Q44 62 62 30 Q66 20 70 30 Q84 58 118 63 Q146 66 152 36 Q156 22 160 10 Q164 22 168 36 Q174 66 202 63 Q236 58 250 30 Q254 20 258 30 Q276 62 312 66"
+              fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <p class="eyebrow reveal">The Wedding Of</p>
+      <h1 class="names script reveal">Putri <span class="amp">&amp;</span> Wira</h1>
+      <p class="hero-date reveal">Selasa, 16 Maret 2027</p>
+      <div class="songket-band" aria-hidden="true"></div>
+    </section>
+
+    <!-- ════════ Hitung Mundur ════════ -->
+    <section class="sect">
+      <h2 class="sect-title reveal">Manantikan Hari Bahagia</h2>
+      <p class="sect-sub reveal">menuju baralek gadang</p>
+      <div class="countdown reveal" id="countdown" aria-live="polite">
+        <div class="cd"><b id="cd-hari">0</b><span>Hari</span></div>
+        <div class="cd"><b id="cd-jam">0</b><span>Jam</span></div>
+        <div class="cd"><b id="cd-menit">0</b><span>Menit</span></div>
+        <div class="cd"><b id="cd-detik">0</b><span>Detik</span></div>
+      </div>
+    </section>
+
+    <!-- ════════ Ayat & Pembuka ════════ -->
+    <section class="sect quote-sect">
+      <div class="ornament-frame reveal">
+        <p class="quote">“Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan
+          untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan
+          Dia menjadikan di antaramu rasa kasih dan sayang.”</p>
+        <p class="quote-src">Q.S. Ar-Rum : 21</p>
+      </div>
+
+      <p class="pepatah reveal">“Bulek aia dek pambuluah,<br>bulek kato dek mufakaik.”</p>
+      <p class="pepatah-arti reveal">— Bulat air karena pembuluh, bulat kata karena mufakat —</p>
+
+      <p class="salam reveal">Assalamu’alaikum Warahmatullahi Wabarakatuh</p>
+      <p class="pembuka reveal">
+        Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i
+        untuk menghadiri acara pernikahan kami.
+      </p>
+    </section>
+
+    <!-- ════════ Mempelai ════════ -->
+    <section class="sect couple-sect">
+      <h2 class="sect-title reveal">Pasangan Mempelai</h2>
+      <p class="sect-sub reveal">dua hati dipersatukan dalam ikatan suci</p>
+
+      <div class="couple reveal">
+        <div class="person">
+          <div class="photo-frame" aria-hidden="true"><span class="photo-note">Foto<br>menyusul</span></div>
+          <h3 class="script">Putri Wahyu Ningsih</h3>
+          <p class="parents">Putri dari<br>Bapak ………… &amp; Ibu …………</p>
+        </div>
+        <div class="amp-big script" aria-hidden="true">&amp;</div>
+        <div class="person">
+          <div class="photo-frame" aria-hidden="true"><span class="photo-note">Foto<br>menyusul</span></div>
+          <h3 class="script">Wira</h3>
+          <p class="parents">Putra dari<br>Bapak ………… &amp; Ibu …………</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ Acara ════════ -->
+    <section class="sect event-sect">
+      <h2 class="sect-title reveal">Rangkaian Acara</h2>
+      <p class="sect-sub reveal">dengan segala kerendahan hati, kami menantikan kehadiran Bapak/Ibu/Saudara/i</p>
+
+      <div class="event-card reveal">
+        <svg class="gonjong small" viewBox="0 0 320 70" aria-hidden="true">
+          <path d="M8 66 Q44 62 62 30 Q66 20 70 30 Q84 58 118 63 Q146 66 152 36 Q156 22 160 10 Q164 22 168 36 Q174 66 202 63 Q236 58 250 30 Q254 20 258 30 Q276 62 312 66"
+                fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <h3>Akad Nikah</h3>
+        <p class="ev-date">Jumat, 12 Maret 2027</p>
+        <p class="ev-time">Waktu menyusul</p>
+        <p class="ev-loc">Lokasi menyusul</p>
+        <a class="btn-line" href="#" data-maps aria-disabled="true">📍 Lokasi Acara</a>
+      </div>
+
+      <div class="event-card reveal">
+        <svg class="gonjong small" viewBox="0 0 320 70" aria-hidden="true">
+          <path d="M8 66 Q44 62 62 30 Q66 20 70 30 Q84 58 118 63 Q146 66 152 36 Q156 22 160 10 Q164 22 168 36 Q174 66 202 63 Q236 58 250 30 Q254 20 258 30 Q276 62 312 66"
+                fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <h3>Resepsi · Baralek</h3>
+        <p class="ev-date">Selasa, 16 Maret 2027</p>
+        <p class="ev-time">Waktu menyusul</p>
+        <p class="ev-loc">Lokasi menyusul</p>
+        <a class="btn-line" href="#" data-maps aria-disabled="true">📍 Lokasi Acara</a>
+      </div>
+    </section>
+
+    <!-- ════════ Galeri ════════ -->
+    <section class="sect">
+      <h2 class="sect-title reveal">Galeri</h2>
+      <p class="sect-sub reveal">kenangan yang kami rangkai berdua</p>
+      <div class="gallery reveal">
+        <div class="g-ph"><span>Foto menyusul</span></div>
+        <div class="g-ph"><span>Foto menyusul</span></div>
+        <div class="g-ph"><span>Foto menyusul</span></div>
+        <div class="g-ph"><span>Foto menyusul</span></div>
+      </div>
+    </section>
+
+    <!-- ════════ Perjalanan ════════ -->
+    <section class="sect journey-sect">
+      <h2 class="sect-title reveal">Perjalanan Kami</h2>
+      <p class="sect-sub reveal">dari basobok hingga baralek</p>
+
+      <div class="journey">
+        <div class="j-item reveal">
+          <span class="j-dot" aria-hidden="true"></span>
+          <h3>Perkenalan</h3>
+          <p>Cerita menyusul…</p>
+        </div>
+        <div class="j-item reveal">
+          <span class="j-dot" aria-hidden="true"></span>
+          <h3>Maminang</h3>
+          <p>Keluarga datang maminang, kata telah bulat dalam mufakat. Cerita menyusul…</p>
+        </div>
+        <div class="j-item reveal">
+          <span class="j-dot" aria-hidden="true"></span>
+          <h3>Baralek</h3>
+          <p>Dengan restu kedua keluarga, kami melangkah ke pelaminan. 12 &amp; 16 Maret 2027.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ Hadiah ════════ -->
+    <section class="sect gift-sect">
+      <h2 class="sect-title reveal">Tando Kasih</h2>
+      <p class="sect-sub reveal">
+        Doa restu Bapak/Ibu/Saudara/i adalah hadiah terindah bagi kami. Namun bila ingin
+        memberikan tanda kasih, dapat melalui:
+      </p>
+
+      <div class="gift-card reveal">
+        <p class="bank">Bank ………… </p>
+        <p class="norek" id="norek">0000-0000-0000</p>
+        <p class="an">a.n. Putri Wahyu Ningsih</p>
+        <button class="btn-gold" id="copy-btn" type="button">⧉ Salin Nomor Rekening</button>
+        <span class="copied" id="copied-msg" role="status"></span>
+      </div>
+    </section>
+
+    <!-- ════════ Ucapan & Doa ════════ -->
+    <section class="sect wish-sect">
+      <h2 class="sect-title reveal">Ucapan &amp; Doa</h2>
+      <p class="sect-sub reveal">kirimkan doa dan ucapan terbaik untuk kedua mempelai</p>
+
+      <form class="wish-form reveal" id="wish-form">
+        <label for="wish-name">Nama</label>
+        <input id="wish-name" type="text" placeholder="Nama Anda" required>
+        <label for="wish-msg">Ucapan &amp; Doa</label>
+        <textarea id="wish-msg" rows="4" placeholder="Tuliskan ucapan dan doa…" required></textarea>
+        <button class="btn-gold" type="submit">Kirim via WhatsApp</button>
+        <p class="wish-note">Ucapan akan terkirim melalui WhatsApp ke keluarga mempelai.</p>
+      </form>
+    </section>
+
+    <!-- ════════ Penutup ════════ -->
+    <section class="sect closing">
+      <div class="songket-band" aria-hidden="true"></div>
+      <p class="pembuka reveal">
+        Merupakan suatu kebahagiaan dan kehormatan bagi kami apabila Bapak/Ibu/Saudara/i
+        berkenan hadir dan memberikan doa restu.
+      </p>
+      <p class="salam reveal">Wassalamu’alaikum Warahmatullahi Wabarakatuh</p>
+      <p class="eyebrow reveal">Kami yang berbahagia,</p>
+      <p class="names script closing-names reveal">Putri &amp; Wira</p>
+      <p class="family reveal">beserta keluarga besar kedua mempelai</p>
+      <svg class="gonjong" viewBox="0 0 320 70" aria-hidden="true">
+        <path d="M8 66 Q44 62 62 30 Q66 20 70 30 Q84 58 118 63 Q146 66 152 36 Q156 22 160 10 Q164 22 168 36 Q174 66 202 63 Q236 58 250 30 Q254 20 258 30 Q276 62 312 66"
+              fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </section>
+
+    <footer class="foot">
+      <p>Dibuat dengan ♥ oleh <a href="https://muhardiansyah15.github.io/" target="_blank" rel="noopener">uda Muhardiansyah</a></p>
+    </footer>
+  </main>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
