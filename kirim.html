@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kirim Undangan — Putri &amp; Vira</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* halaman alat keluarga — memakai palet & font tema undangan */
+    body { background: linear-gradient(180deg, var(--marun) 0%, var(--marun-tua) 100%); }
+    .kirim-wrap {
+      max-width: 480px; margin: 0 auto; padding: 40px 22px 60px;
+    }
+    .kirim-card {
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      outline: 1px solid rgba(212, 175, 55, 0.18);
+      outline-offset: 6px;
+      background: rgba(26, 18, 16, 0.25);
+      padding: 28px 22px;
+      text-align: center;
+    }
+    .kirim-card h1 {
+      font-family: var(--serif); font-weight: 600;
+      font-size: 1.4rem; color: var(--emas-muda); margin: 8px 0 2px;
+    }
+    .kirim-sub { color: var(--krem-redup); font-size: 0.83rem; margin: 0 0 24px; }
+    .kirim-form { display: grid; gap: 8px; text-align: left; }
+    .kirim-form label {
+      font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--emas-muda); margin-top: 8px;
+    }
+    .kirim-form input {
+      font-family: var(--sans); font-size: 0.95rem; color: var(--krem);
+      background: rgba(26, 18, 16, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 12px 14px;
+    }
+    .kirim-form input:focus-visible { outline: 2px solid var(--emas); outline-offset: 1px; }
+    .hint { font-size: 0.72rem; color: var(--krem-redup); margin: 0; }
+    .tombol-baris { display: grid; gap: 10px; margin-top: 18px; }
+    .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .btn-salin {
+      font-family: var(--sans); font-weight: 700; font-size: 0.82rem;
+      color: var(--emas-muda); background: none;
+      border: 1px solid var(--emas); border-radius: 999px;
+      padding: 11px 24px; cursor: pointer;
+    }
+    .btn-salin:hover { background: rgba(212, 175, 55, 0.12); }
+    .pratinjau {
+      margin-top: 22px; text-align: left;
+      border: 1px dashed rgba(212, 175, 55, 0.45);
+      background: rgba(26, 18, 16, 0.35);
+      padding: 14px 16px;
+      font-size: 0.8rem; line-height: 1.65;
+      color: var(--krem-redup);
+      white-space: pre-wrap;
+      max-height: 300px; overflow-y: auto;
+    }
+    .pratinjau b { color: var(--emas-muda); }
+    .status { min-height: 1.3em; font-size: 0.78rem; color: var(--emas-muda); margin: 8px 0 0; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="kirim-wrap">
+    <div class="kirim-card">
+      <svg class="gonjong small" viewBox="0 0 320 70" aria-hidden="true" style="margin-bottom:4px">
+        <path d="M8 66 Q44 62 62 30 Q66 20 70 30 Q84 58 118 63 Q146 66 152 36 Q156 22 160 10 Q164 22 168 36 Q174 66 202 63 Q236 58 250 30 Q254 20 258 30 Q276 62 312 66"
+              fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="color:var(--emas)"/>
+      </svg>
+      <h1>Kirim Undangan</h1>
+      <p class="kirim-sub">Putri &amp; Vira · 17 Maret 2027 — alat keluarga untuk menyebar undangan via WhatsApp</p>
+
+      <form class="kirim-form" id="form-kirim">
+        <label for="nama">Nama Tamu</label>
+        <input id="nama" type="text" placeholder='mis. Muhardiansyah &amp; Partner' required autocomplete="off">
+        <p class="hint">Nama ini akan tampil di cover undangan ("Kepada Yth. …")</p>
+
+        <label for="nomor">Nomor WhatsApp Tamu (opsional)</label>
+        <input id="nomor" type="tel" placeholder="mis. 0812xxxxxxx" autocomplete="off">
+        <p class="hint">Kosongkan untuk memilih kontak sendiri di WhatsApp</p>
+
+        <div class="tombol-baris">
+          <button class="btn-gold" type="submit" id="btn-wa" disabled>Kirim via WhatsApp</button>
+          <button class="btn-salin" type="button" id="btn-salin" disabled>⧉ Salin Pesan</button>
+          <button class="btn-salin" type="button" id="btn-link" disabled>⧉ Salin Link Undangan Saja</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </form>
+
+      <div class="pratinjau" id="pratinjau">Pratinjau pesan akan muncul di sini setelah nama tamu diisi…</div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+    var BASE = "https://muhardiansyah15.github.io/wedding_invitations/";
+
+    var nama = document.getElementById("nama");
+    var nomor = document.getElementById("nomor");
+    var btnWa = document.getElementById("btn-wa");
+    var btnSalin = document.getElementById("btn-salin");
+    var btnLink = document.getElementById("btn-link");
+    var pratinjau = document.getElementById("pratinjau");
+    var status = document.getElementById("status");
+
+    function linkUndangan(n) {
+      return BASE + "?to=" + encodeURIComponent(n);
+    }
+
+    function pesan(n) {
+      return (
+        "Bismillahirrahmanirrahim\n" +
+        "Assalamualaikum Warahmatullahi Wabarakatuh\n\n" +
+        "Kepada Yth.\nBapak/Ibu/Saudara/i\n" + n + "\n\n" +
+        "Tanpa mengurangi rasa hormat, perkenankan kami mengundang Anda untuk " +
+        "menghadiri dan memberikan doa restu pada acara pernikahan kami.\n\n" +
+        "Informasi lengkap serta detail acara dapat Anda lihat melalui link " +
+        "undangan digital di bawah ini:\n\n" + linkUndangan(n) + "\n\n" +
+        "Ungkapan terima kasih yang tulus dari kami apabila Anda berkenan hadir " +
+        "dan berbagi kebahagiaan bersama kami di hari istimewa nanti.\n\n" +
+        "Wassalamualaikum Warahmatullahi Wabarakatuh"
+      );
+    }
+
+    function nomorWa(v) {
+      var d = v.replace(/[^0-9]/g, "");
+      if (!d) return "";
+      if (d.slice(0, 2) === "62") return d;
+      if (d[0] === "0") return "62" + d.slice(1);
+      if (d[0] === "8") return "62" + d;
+      return d;
+    }
+
+    function segarkan() {
+      var n = nama.value.trim();
+      var aktif = n.length > 0;
+      btnWa.disabled = !aktif;
+      btnSalin.disabled = !aktif;
+      btnLink.disabled = !aktif;
+      pratinjau.textContent = aktif
+        ? pesan(n)
+        : "Pratinjau pesan akan muncul di sini setelah nama tamu diisi…";
+      status.textContent = "";
+    }
+    nama.addEventListener("input", segarkan);
+
+    document.getElementById("form-kirim").addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var n = nama.value.trim();
+      if (!n) return;
+      var teks = encodeURIComponent(pesan(n));
+      var tujuan = nomorWa(nomor.value);
+      var url = tujuan
+        ? "https://wa.me/" + tujuan + "?text=" + teks
+        : "https://wa.me/?text=" + teks;
+      window.open(url, "_blank", "noopener");
+    });
+
+    function salin(teks, pesanStatus) {
+      navigator.clipboard.writeText(teks).then(function () {
+        status.textContent = pesanStatus;
+        setTimeout(function () { status.textContent = ""; }, 2500);
+      });
+    }
+    btnSalin.addEventListener("click", function () { salin(pesan(nama.value.trim()), "✓ Pesan lengkap tersalin"); });
+    btnLink.addEventListener("click", function () { salin(linkUndangan(nama.value.trim()), "✓ Link undangan tersalin"); });
+  })();
+  </script>
+</body>
+</html>
