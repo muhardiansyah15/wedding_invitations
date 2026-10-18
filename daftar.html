@@ -155,7 +155,7 @@
       <div class="tabel-bungkus">
         <table class="tabel-daftar">
           <thead>
-            <tr><th>No</th><th>Nama Tamu</th><th>Terakhir Dikirim</th><th>Nomor</th><th>Kirim</th><th>Oleh</th><th>Status</th></tr>
+            <tr><th>No</th><th>Nama Tamu</th><th>Terakhir Dikirim</th><th>Nomor</th><th>Via</th><th>Kirim</th><th>Oleh</th><th>Status</th></tr>
           </thead>
           <tbody id="isi-daftar"></tbody>
         </table>
@@ -248,6 +248,13 @@
 
     function kunci(n) { return n.trim().toLowerCase(); }
 
+    function namaCara(c) {
+      if (c === "salin") return "salin pesan";
+      if (c === "link") return "salin link";
+      if (c === "wa") return "WhatsApp";
+      return c || "—";
+    }
+
     function tanggal(iso) {
       if (!iso) return "";
       try {
@@ -310,6 +317,7 @@
         sel(tr, t.nama, "td-nama");
         sel(tr, tanggal(t.waktu) || "—", "td-info", "Dikirim");
         sel(tr, t.nomor || "—", "td-info", "Nomor");
+        sel(tr, namaCara(t.cara), "td-info", "Via");
         sel(tr, t.jumlahKirim + "×", "td-info", "Kirim");
         sel(tr, t.pengirim || "—", "td-info", "Oleh");
 
@@ -353,7 +361,7 @@
             var k = kunci(d.nama);
             if (!peta[k]) {
               peta[k] = { nama: d.nama, waktu: d.waktu, nomor: d.nomor,
-                          pengirim: d.pengirim, jumlahKirim: 1 };
+                          cara: d.cara, pengirim: d.pengirim, jumlahKirim: 1 };
             } else {
               peta[k].jumlahKirim++;
               if (!peta[k].nomor && d.nomor) peta[k].nomor = d.nomor;
