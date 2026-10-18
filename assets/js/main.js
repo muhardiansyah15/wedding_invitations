@@ -1,4 +1,4 @@
-/* The Wedding of Putri & Vira — interaksi undangan (vanilla JS) */
+/* The Wedding of Putri & Pira — interaksi undangan (vanilla JS) */
 (function () {
   "use strict";
 

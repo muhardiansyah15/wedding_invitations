@@ -1,5 +1,5 @@
 /**
- * RSVP & Guest Wall — The Wedding of Putri & Vira
+ * RSVP & Guest Wall — The Wedding of Putri & Pira
  * Pasang di: spreadsheet RSVP > Extensions > Apps Script (ganti isi Code.gs)
  * Deploy: Deploy > New deployment > Web app
  *   - Execute as: Me
