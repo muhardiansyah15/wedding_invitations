@@ -78,6 +78,13 @@ Jumlah · Ucapan; validasi panjang & jumlah tamu di sisi server).
 URL deployment tersimpan di `RSVP_URL` (`assets/js/main.js` dan
 `ucapan.html`).
 
+**Login pengirim** (kirim.html & daftar.html): akun dikelola di sheet
+`PENGIRIM` (kolom Username · Password · Nama). Password dicek di server
+Apps Script — halaman statis tidak pernah menyimpannya; sukses login
+menghasilkan token 6 jam. Lima kali gagal = terkunci 10 menit. Gunakan
+password karangan, jangan password asli akun lain. Username pengirim
+tercatat di tiap baris log KIRIM dan tampil di kolom "Oleh" daftar.html.
+
 Bila perlu deploy ulang (mis. ganti spreadsheet):
 
 1. Spreadsheet → **Extensions → Apps Script** → tempel isi

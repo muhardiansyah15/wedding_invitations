@@ -77,7 +77,24 @@
       <h1>Kirim Undangan</h1>
       <p class="kirim-sub">Putri &amp; Pira · 17 Maret 2027 — alat keluarga untuk menyebar undangan via WhatsApp</p>
 
-      <form class="kirim-form" id="form-kirim">
+      <form class="kirim-form" id="form-login" hidden>
+        <label for="login-user">Username</label>
+        <input id="login-user" type="text" autocomplete="username" required>
+        <label for="login-pass">Password</label>
+        <input id="login-pass" type="password" autocomplete="current-password" required>
+        <div class="tombol-baris">
+          <button class="btn-gold" type="submit" id="btn-login">Masuk</button>
+        </div>
+        <p class="status" id="status-login" role="status"></p>
+        <p class="hint" style="text-align:center">Akun pengirim dikelola keluarga di sheet PENGIRIM</p>
+      </form>
+
+      <p class="hint" id="info-akun" hidden style="margin-bottom:14px">
+        Masuk sebagai <b id="akun-nama" style="color:var(--emas-muda)"></b>
+        · <a href="#" id="btn-keluar" style="color:var(--emas-muda)">keluar</a>
+      </p>
+
+      <form class="kirim-form" id="form-kirim" hidden>
         <label for="nama">Nama Tamu</label>
         <input id="nama" type="text" placeholder='mis. Muhardiansyah &amp; Partner' required autocomplete="off">
         <p class="hint">Nama ini akan tampil di cover undangan ("Kepada Yth. …")</p>
@@ -108,6 +125,66 @@
     var BASE = "https://muhardiansyah15.github.io/wedding_invitations/";
     var RSVP_URL = "https://script.google.com/macros/s/AKfycbzCDVE5ivtVxFTlzP4xPSU3N_tu64V7F28GDFfRssK_oHTZNaPyIPqXmb9jjGEV9fGg/exec";
 
+    /* ---------- login pengirim (token dicek server Apps Script) ---------- */
+    var formLogin = document.getElementById("form-login");
+    var formKirim = document.getElementById("form-kirim");
+    var infoAkun = document.getElementById("info-akun");
+    var statusLogin = document.getElementById("status-login");
+
+    function tokenAktif() {
+      try { return localStorage.getItem("kirimToken") || ""; } catch (err) { return ""; }
+    }
+
+    function tampilkan() {
+      var masuk = !!tokenAktif();
+      formLogin.hidden = masuk;
+      formKirim.hidden = !masuk;
+      infoAkun.hidden = !masuk;
+      document.getElementById("pratinjau").hidden = !masuk;
+      if (masuk) {
+        try {
+          document.getElementById("akun-nama").textContent =
+            localStorage.getItem("kirimNama") || "";
+        } catch (err) {}
+      }
+    }
+
+    formLogin.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      statusLogin.textContent = "Memeriksa…";
+      fetch(RSVP_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          aksi: "login",
+          user: document.getElementById("login-user").value,
+          pass: document.getElementById("login-pass").value
+        })
+      }).then(function (r) { return r.json(); }).then(function (res) {
+        if (res.ok) {
+          try {
+            localStorage.setItem("kirimToken", res.token);
+            localStorage.setItem("kirimNama", res.nama);
+          } catch (err) {}
+          statusLogin.textContent = "";
+          document.getElementById("login-pass").value = "";
+          tampilkan();
+        } else {
+          statusLogin.textContent = res.pesan || "Login gagal.";
+        }
+      }).catch(function () {
+        statusLogin.textContent = "Tidak bisa terhubung — coba lagi.";
+      });
+    });
+
+    document.getElementById("btn-keluar").addEventListener("click", function (ev) {
+      ev.preventDefault();
+      try {
+        localStorage.removeItem("kirimToken");
+        localStorage.removeItem("kirimNama");
+      } catch (err) {}
+      tampilkan();
+    });
+
     // catat penyebaran ke sheet KIRIM (fire-and-forget, tak mengganggu alur)
     function catat(cara) {
       try {
@@ -115,6 +192,7 @@
           method: "POST",
           body: JSON.stringify({
             aksi: "kirim",
+            token: tokenAktif(),
             nama: nama.value.trim(),
             nomor: nomor.value.trim(),
             cara: cara
@@ -195,6 +273,8 @@
     }
     btnSalin.addEventListener("click", function () { salin(pesan(nama.value.trim()), "✓ Pesan lengkap tersalin"); catat("salin"); });
     btnLink.addEventListener("click", function () { salin(linkUndangan(nama.value.trim()), "✓ Link undangan tersalin"); });
+
+    tampilkan();
   })();
   </script>
 </body>

@@ -122,6 +122,22 @@
       <h1>Daftar Penyebaran Undangan</h1>
       <p class="daftar-sub">alat keluarga — tercatat otomatis dari halaman <a href="kirim.html" style="color:var(--emas-muda)">Kirim Undangan</a></p>
 
+      <form id="form-login" hidden style="display:grid; gap:8px; text-align:left; max-width:340px; margin:0 auto 10px">
+        <label for="login-user" style="font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--emas-muda)">Username</label>
+        <input id="login-user" type="text" autocomplete="username" required
+               style="font-family:var(--sans); font-size:0.95rem; color:var(--krem); background:rgba(26,18,16,0.4); border:1px solid rgba(212,175,55,0.4); padding:12px 14px">
+        <label for="login-pass" style="font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--emas-muda)">Password</label>
+        <input id="login-pass" type="password" autocomplete="current-password" required
+               style="font-family:var(--sans); font-size:0.95rem; color:var(--krem); background:rgba(26,18,16,0.4); border:1px solid rgba(212,175,55,0.4); padding:12px 14px">
+        <button class="btn-segarkan" type="submit" style="margin-top:4px">Masuk</button>
+        <p class="status-muat" id="status-login" role="status" style="text-align:center"></p>
+      </form>
+
+      <p id="info-akun" hidden style="font-size:0.75rem; color:var(--krem-redup); margin:0 0 12px">
+        Masuk sebagai <b id="akun-nama" style="color:var(--emas-muda)"></b>
+        · <a href="#" id="btn-keluar" style="color:var(--emas-muda)">keluar</a>
+      </p>
+
       <div class="ringkas">
         <span><b id="n-kirim">0</b> tamu dikirimi</span>
         <span><b id="n-rsvp">0</b> sudah konfirmasi</span>
@@ -132,7 +148,7 @@
       <div class="tabel-bungkus">
         <table class="tabel-daftar">
           <thead>
-            <tr><th>No</th><th>Nama Tamu</th><th>Terakhir Dikirim</th><th>Nomor</th><th>Kirim</th><th>Status</th></tr>
+            <tr><th>No</th><th>Nama Tamu</th><th>Terakhir Dikirim</th><th>Nomor</th><th>Kirim</th><th>Oleh</th><th>Status</th></tr>
           </thead>
           <tbody id="isi-daftar"></tbody>
         </table>
@@ -152,6 +168,70 @@
   (function () {
     "use strict";
     var RSVP_URL = "https://script.google.com/macros/s/AKfycbzCDVE5ivtVxFTlzP4xPSU3N_tu64V7F28GDFfRssK_oHTZNaPyIPqXmb9jjGEV9fGg/exec";
+
+    /* ---------- login pengirim (token sama dengan kirim.html) ---------- */
+    var formLogin = document.getElementById("form-login");
+    var infoAkun = document.getElementById("info-akun");
+    var statusLogin = document.getElementById("status-login");
+
+    function tokenAktif() {
+      try { return localStorage.getItem("kirimToken") || ""; } catch (err) { return ""; }
+    }
+
+    function butuhLogin() {
+      try {
+        localStorage.removeItem("kirimToken");
+        localStorage.removeItem("kirimNama");
+      } catch (err) {}
+      formLogin.hidden = false;
+      infoAkun.hidden = true;
+      statusEl.textContent = "";
+      pesanKosong.hidden = false;
+      pesanKosong.textContent = "Masuk dulu untuk melihat daftar penyebaran.";
+      isi.textContent = "";
+    }
+
+    function sudahMasuk() {
+      formLogin.hidden = true;
+      infoAkun.hidden = false;
+      try {
+        document.getElementById("akun-nama").textContent =
+          localStorage.getItem("kirimNama") || "";
+      } catch (err) {}
+    }
+
+    formLogin.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      statusLogin.textContent = "Memeriksa…";
+      fetch(RSVP_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          aksi: "login",
+          user: document.getElementById("login-user").value,
+          pass: document.getElementById("login-pass").value
+        })
+      }).then(function (r) { return r.json(); }).then(function (res) {
+        if (res.ok) {
+          try {
+            localStorage.setItem("kirimToken", res.token);
+            localStorage.setItem("kirimNama", res.nama);
+          } catch (err) {}
+          statusLogin.textContent = "";
+          document.getElementById("login-pass").value = "";
+          sudahMasuk();
+          muat();
+        } else {
+          statusLogin.textContent = res.pesan || "Login gagal.";
+        }
+      }).catch(function () {
+        statusLogin.textContent = "Tidak bisa terhubung — coba lagi.";
+      });
+    });
+
+    document.getElementById("btn-keluar").addEventListener("click", function (ev) {
+      ev.preventDefault();
+      butuhLogin();
+    });
 
     var isi = document.getElementById("isi-daftar");
     var cari = document.getElementById("cari");
@@ -200,6 +280,7 @@
         sel(tr, tanggal(t.waktu) || "—", "td-info", "Dikirim");
         sel(tr, t.nomor || "—", "td-info", "Nomor");
         sel(tr, t.jumlahKirim + "×", "td-info", "Kirim");
+        sel(tr, t.pengirim || "—", "td-info", "Oleh");
 
         var h = rsvp[kunci(t.nama)];
         var badge = document.createElement("span");
@@ -220,12 +301,15 @@
     }
 
     function muat() {
+      if (!tokenAktif()) { butuhLogin(); return; }
       statusEl.textContent = "Memuat…";
       Promise.all([
-        fetch(RSVP_URL + "?daftar=kirim").then(function (r) { return r.json(); }),
+        fetch(RSVP_URL + "?daftar=kirim&token=" + encodeURIComponent(tokenAktif()))
+          .then(function (r) { return r.json(); }),
         fetch(RSVP_URL).then(function (r) { return r.json(); })
       ]).then(function (hasil) {
         var kirim = hasil[0], wall = hasil[1];
+        if (kirim.butuhLogin) { butuhLogin(); return; }
         // skrip lama mengabaikan ?daftar=kirim dan mengirim data ucapan (tanpa kolom waktu)
         if (kirim.ok && kirim.data.length && typeof kirim.data[0].waktu === "undefined") {
           statusEl.textContent = "Apps Script masih versi lama — perbarui dulu lewat Deploy → Manage deployments → New version.";
@@ -237,10 +321,12 @@
           kirim.data.forEach(function (d) {
             var k = kunci(d.nama);
             if (!peta[k]) {
-              peta[k] = { nama: d.nama, waktu: d.waktu, nomor: d.nomor, jumlahKirim: 1 };
+              peta[k] = { nama: d.nama, waktu: d.waktu, nomor: d.nomor,
+                          pengirim: d.pengirim, jumlahKirim: 1 };
             } else {
               peta[k].jumlahKirim++;
               if (!peta[k].nomor && d.nomor) peta[k].nomor = d.nomor;
+              if (!peta[k].pengirim && d.pengirim) peta[k].pengirim = d.pengirim;
             }
           });
           tamu = Object.keys(peta).map(function (k) { return peta[k]; });
@@ -258,7 +344,7 @@
 
     cari.addEventListener("input", gambar);
     document.getElementById("btn-segarkan").addEventListener("click", muat);
-    muat();
+    if (tokenAktif()) { sudahMasuk(); muat(); } else { butuhLogin(); }
   })();
   </script>
 </body>
