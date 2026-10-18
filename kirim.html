@@ -96,6 +96,8 @@
 
       <div class="pratinjau" id="pratinjau">Pratinjau pesan akan muncul di sini setelah nama tamu diisi…</div>
 
+      <p style="margin:16px 0 0; font-size:0.78rem"><a href="daftar.html" style="color:var(--emas-muda)">📋 Lihat daftar penyebaran undangan</a></p>
+
       <p class="foot mb-10">Dibuat dengan ♥ oleh kakak <a href="https://muhardiansyah15.github.io/" target="_blank" rel="noopener">Muhardiansyah</a></p>
     </div>
   </div>
@@ -104,6 +106,22 @@
   (function () {
     "use strict";
     var BASE = "https://muhardiansyah15.github.io/wedding_invitations/";
+    var RSVP_URL = "https://script.google.com/macros/s/AKfycbzCDVE5ivtVxFTlzP4xPSU3N_tu64V7F28GDFfRssK_oHTZNaPyIPqXmb9jjGEV9fGg/exec";
+
+    // catat penyebaran ke sheet KIRIM (fire-and-forget, tak mengganggu alur)
+    function catat(cara) {
+      try {
+        fetch(RSVP_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            aksi: "kirim",
+            nama: nama.value.trim(),
+            nomor: nomor.value.trim(),
+            cara: cara
+          })
+        }).catch(function () {});
+      } catch (err) {}
+    }
 
     var nama = document.getElementById("nama");
     var nomor = document.getElementById("nomor");
@@ -166,6 +184,7 @@
         ? "https://wa.me/" + tujuan + "?text=" + teks
         : "https://wa.me/?text=" + teks;
       window.open(url, "_blank", "noopener");
+      catat("wa");
     });
 
     function salin(teks, pesanStatus) {
@@ -174,7 +193,7 @@
         setTimeout(function () { status.textContent = ""; }, 2500);
       });
     }
-    btnSalin.addEventListener("click", function () { salin(pesan(nama.value.trim()), "✓ Pesan lengkap tersalin"); });
+    btnSalin.addEventListener("click", function () { salin(pesan(nama.value.trim()), "✓ Pesan lengkap tersalin"); catat("salin"); });
     btnLink.addEventListener("click", function () { salin(linkUndangan(nama.value.trim()), "✓ Link undangan tersalin"); });
   })();
   </script>

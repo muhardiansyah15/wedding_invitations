@@ -19,6 +19,7 @@ ringan dibuka dari WhatsApp di ponsel.
 | `index.html` | Tamu | Undangan utama — nama tamu dari URL `?to=` |
 | `kirim.html` | Keluarga | Alat kirim undangan via WhatsApp (tidak ditautkan dari undangan, `noindex`) |
 | `ucapan.html` | Layar di lokasi acara | Papan ucapan & doa untuk TV/proyektor maupun ponsel (`noindex`) |
+| `daftar.html` | Keluarga | Daftar penyebaran undangan — siapa sudah dikirimi & status RSVP-nya (`noindex`) |
 
 ## Cara kerja — alur lengkap
 

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Penyebaran — Putri &amp; Pira</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/favicon.ico" sizes="48x48">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* halaman alat keluarga: siapa saja yang sudah dikirimi undangan */
+    body { background: linear-gradient(180deg, var(--marun) 0%, var(--marun-tua) 100%); }
+    .daftar-wrap { max-width: 560px; margin: 0 auto; padding: 40px 22px 60px; }
+    .daftar-card {
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      outline: 1px solid rgba(212, 175, 55, 0.18);
+      outline-offset: 6px;
+      background: rgba(26, 18, 16, 0.25);
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .daftar-card h1 {
+      font-family: var(--serif); font-weight: 600;
+      font-size: 1.4rem; color: var(--emas-muda); margin: 8px 0 2px;
+    }
+    .daftar-sub { color: var(--krem-redup); font-size: 0.83rem; margin: 0 0 18px; }
+
+    .ringkas {
+      display: flex; justify-content: center; gap: 22px;
+      font-size: 0.78rem; color: var(--krem-redup); margin-bottom: 18px;
+    }
+    .ringkas b { color: var(--emas-muda); font-size: 1.05rem; display: block; }
+
+    #cari {
+      width: 100%; box-sizing: border-box;
+      font-family: var(--sans); font-size: 0.9rem; color: var(--krem);
+      background: rgba(26, 18, 16, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 10px 14px; margin-bottom: 14px;
+    }
+    #cari:focus-visible { outline: 2px solid var(--emas); outline-offset: 1px; }
+
+    .baris-daftar { text-align: left; display: grid; gap: 8px; }
+    .tamu {
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: rgba(26, 18, 16, 0.35);
+      padding: 10px 14px;
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    }
+    .tamu-kiri { min-width: 0; }
+    .tamu-nama {
+      font-family: var(--serif); font-weight: 600; font-size: 0.98rem;
+      color: var(--krem); margin: 0;
+      overflow-wrap: anywhere;
+    }
+    .tamu-info { font-size: 0.7rem; color: var(--krem-redup); margin: 2px 0 0; }
+    .tamu .wall-badge { flex: 0 0 auto; }
+    .badge-belum { color: var(--krem-redup); font-size: 0.68rem; flex: 0 0 auto; }
+
+    .kosong-daftar { color: var(--krem-redup); font-size: 0.85rem; padding: 20px 0; }
+    .status-muat { min-height: 1.2em; font-size: 0.75rem; color: var(--emas-muda); margin: 10px 0 0; }
+    .btn-segarkan {
+      font-family: var(--sans); font-weight: 700; font-size: 0.78rem;
+      color: var(--emas-muda); background: none;
+      border: 1px solid var(--emas); border-radius: 999px;
+      padding: 8px 20px; cursor: pointer; margin-top: 14px;
+    }
+    .btn-segarkan:hover { background: rgba(212, 175, 55, 0.12); }
+  </style>
+</head>
+<body>
+  <div class="daftar-wrap">
+    <div class="daftar-card">
+      <svg class="gonjong small tampak" viewBox="0 0 320 70" aria-hidden="true" style="margin-bottom:4px">
+        <path d="M8 66 Q44 62 62 30 Q66 20 70 30 Q84 58 118 63 Q146 66 152 36 Q156 22 160 10 Q164 22 168 36 Q174 66 202 63 Q236 58 250 30 Q254 20 258 30 Q276 62 312 66"
+              fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" pathLength="100" style="color:var(--emas)"/>
+      </svg>
+      <h1>Daftar Penyebaran Undangan</h1>
+      <p class="daftar-sub">alat keluarga — tercatat otomatis dari halaman <a href="kirim.html" style="color:var(--emas-muda)">Kirim Undangan</a></p>
+
+      <div class="ringkas">
+        <span><b id="n-kirim">0</b> tamu dikirimi</span>
+        <span><b id="n-rsvp">0</b> sudah konfirmasi</span>
+      </div>
+
+      <input id="cari" type="search" placeholder="Cari nama tamu…" autocomplete="off">
+
+      <div class="baris-daftar" id="isi-daftar">
+        <p class="kosong-daftar">Memuat daftar…</p>
+      </div>
+
+      <button class="btn-segarkan" id="btn-segarkan" type="button">↻ Segarkan</button>
+      <p class="status-muat" id="status-muat" role="status"></p>
+    </div>
+
+    <footer class="foot" style="border-top:none">
+      <p>Dibuat dengan ♥ oleh kakak <a href="https://muhardiansyah15.github.io/" target="_blank" rel="noopener">Muhardiansyah</a></p>
+    </footer>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+    var RSVP_URL = "https://script.google.com/macros/s/AKfycbzCDVE5ivtVxFTlzP4xPSU3N_tu64V7F28GDFfRssK_oHTZNaPyIPqXmb9jjGEV9fGg/exec";
+
+    var isi = document.getElementById("isi-daftar");
+    var cari = document.getElementById("cari");
+    var statusEl = document.getElementById("status-muat");
+    var tamu = [];   // [{nama, waktu, nomor, jumlahKirim}]
+    var rsvp = {};   // nama lower -> "Hadir"/"Tidak Hadir"
+
+    function kunci(n) { return n.trim().toLowerCase(); }
+
+    function tanggal(iso) {
+      if (!iso) return "";
+      try {
+        return new Date(iso).toLocaleString("id-ID", {
+          day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
+        });
+      } catch (err) { return ""; }
+    }
+
+    function gambar() {
+      var q = kunci(cari.value || "");
+      isi.textContent = "";
+      var tampil = tamu.filter(function (t) { return !q || kunci(t.nama).indexOf(q) !== -1; });
+      if (!tampil.length) {
+        var p = document.createElement("p");
+        p.className = "kosong-daftar";
+        p.textContent = tamu.length ? "Tidak ada nama yang cocok." :
+          "Belum ada catatan — kirim undangan pertama lewat halaman Kirim Undangan.";
+        isi.appendChild(p);
+      }
+      tampil.forEach(function (t) {
+        var div = document.createElement("div");
+        div.className = "tamu";
+        var kiri = document.createElement("div");
+        kiri.className = "tamu-kiri";
+        var nm = document.createElement("p");
+        nm.className = "tamu-nama";
+        nm.textContent = t.nama;
+        var info = document.createElement("p");
+        info.className = "tamu-info";
+        var potongan = [tanggal(t.waktu)];
+        if (t.nomor) potongan.push(t.nomor);
+        if (t.jumlahKirim > 1) potongan.push(t.jumlahKirim + "× dikirim");
+        info.textContent = potongan.join(" · ");
+        kiri.appendChild(nm); kiri.appendChild(info);
+        div.appendChild(kiri);
+
+        var h = rsvp[kunci(t.nama)];
+        if (h) {
+          var b = document.createElement("span");
+          b.className = "wall-badge" + (h === "Hadir" ? " hadir" : "");
+          b.textContent = h === "Hadir" ? "hadir" : "berhalangan";
+          div.appendChild(b);
+        } else {
+          var s = document.createElement("span");
+          s.className = "badge-belum";
+          s.textContent = "belum konfirmasi";
+          div.appendChild(s);
+        }
+        isi.appendChild(div);
+      });
+
+      document.getElementById("n-kirim").textContent = tamu.length;
+      document.getElementById("n-rsvp").textContent =
+        tamu.filter(function (t) { return rsvp[kunci(t.nama)]; }).length;
+    }
+
+    function muat() {
+      statusEl.textContent = "Memuat…";
+      Promise.all([
+        fetch(RSVP_URL + "?daftar=kirim").then(function (r) { return r.json(); }),
+        fetch(RSVP_URL).then(function (r) { return r.json(); })
+      ]).then(function (hasil) {
+        var kirim = hasil[0], wall = hasil[1];
+        // skrip lama mengabaikan ?daftar=kirim dan mengirim data ucapan (tanpa kolom waktu)
+        if (kirim.ok && kirim.data.length && typeof kirim.data[0].waktu === "undefined") {
+          statusEl.textContent = "Apps Script masih versi lama — perbarui dulu lewat Deploy → Manage deployments → New version.";
+          return;
+        }
+        if (kirim.ok) {
+          // satu baris per tamu: catatan terbaru + hitungan kiriman
+          var peta = {};
+          kirim.data.forEach(function (d) {
+            var k = kunci(d.nama);
+            if (!peta[k]) {
+              peta[k] = { nama: d.nama, waktu: d.waktu, nomor: d.nomor, jumlahKirim: 1 };
+            } else {
+              peta[k].jumlahKirim++;
+              if (!peta[k].nomor && d.nomor) peta[k].nomor = d.nomor;
+            }
+          });
+          tamu = Object.keys(peta).map(function (k) { return peta[k]; });
+        }
+        rsvp = {};
+        if (wall.ok) {
+          wall.data.forEach(function (d) { rsvp[kunci(d.nama)] = d.hadir; });
+        }
+        statusEl.textContent = "";
+        gambar();
+      }).catch(function () {
+        statusEl.textContent = "Gagal memuat — coba segarkan.";
+      });
+    }
+
+    cari.addEventListener("input", gambar);
+    document.getElementById("btn-segarkan").addEventListener("click", muat);
+    muat();
+  })();
+  </script>
+</body>
+</html>
