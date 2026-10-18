@@ -45,24 +45,63 @@
     }
     #cari:focus-visible { outline: 2px solid var(--emas); outline-offset: 1px; }
 
-    .baris-daftar { text-align: left; display: grid; gap: 8px; }
-    .tamu {
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      background: rgba(26, 18, 16, 0.35);
-      padding: 10px 14px;
-      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    /* tabel daftar */
+    .tabel-bungkus { text-align: left; }
+    .tabel-daftar { width: 100%; border-collapse: collapse; }
+    .tabel-daftar th {
+      font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--emas-muda); font-weight: 700; text-align: left;
+      padding: 8px 10px; white-space: nowrap;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.45);
     }
-    .tamu-kiri { min-width: 0; }
-    .tamu-nama {
-      font-family: var(--serif); font-weight: 600; font-size: 0.98rem;
-      color: var(--krem); margin: 0;
-      overflow-wrap: anywhere;
+    .tabel-daftar td {
+      padding: 9px 10px; font-size: 0.85rem; color: var(--krem);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+      vertical-align: middle;
     }
-    .tamu-info { font-size: 0.7rem; color: var(--krem-redup); margin: 2px 0 0; }
-    .tamu .wall-badge { flex: 0 0 auto; }
-    .badge-belum { color: var(--krem-redup); font-size: 0.68rem; flex: 0 0 auto; }
+    .tabel-daftar tbody tr:nth-child(even) { background: rgba(26, 18, 16, 0.3); }
+    .td-no { color: var(--krem-redup); font-variant-numeric: tabular-nums; width: 2.2em; }
+    .td-nama { font-family: var(--serif); font-weight: 600; font-size: 0.95rem; overflow-wrap: anywhere; }
+    .td-info { color: var(--krem-redup); font-size: 0.78rem; white-space: nowrap; }
+    .badge-belum { color: var(--krem-redup); font-size: 0.68rem; }
 
     .kosong-daftar { color: var(--krem-redup); font-size: 0.85rem; padding: 20px 0; }
+
+    /* layar komputer / TV: tabel melebar, huruf membesar */
+    @media (min-width: 700px) {
+      .daftar-wrap { max-width: 1100px; }
+      .daftar-card { padding: 36px 34px; }
+      .daftar-card h1 { font-size: clamp(1.4rem, 2.2vw, 2rem); }
+      .daftar-sub { font-size: clamp(0.83rem, 1.1vw, 1rem); }
+      .ringkas { font-size: clamp(0.78rem, 1vw, 0.95rem); gap: 34px; }
+      .ringkas b { font-size: clamp(1.05rem, 1.6vw, 1.5rem); }
+      #cari { max-width: 420px; }
+      .tabel-daftar th { font-size: clamp(0.66rem, 0.85vw, 0.8rem); padding: 10px 14px; }
+      .tabel-daftar td { font-size: clamp(0.85rem, 1.1vw, 1.05rem); padding: 12px 14px; }
+      .td-nama { font-size: clamp(0.95rem, 1.25vw, 1.2rem); }
+      .td-info { font-size: clamp(0.78rem, 0.95vw, 0.92rem); }
+    }
+    @media (min-width: 1400px) { .daftar-wrap { max-width: 1400px; } }
+
+    /* ponsel: tiap baris tabel melipat jadi kartu */
+    @media (max-width: 699px) {
+      .tabel-daftar thead { display: none; }
+      .tabel-daftar, .tabel-daftar tbody, .tabel-daftar tr, .tabel-daftar td { display: block; }
+      .tabel-daftar tr {
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        background: rgba(26, 18, 16, 0.35);
+        padding: 8px 12px; margin-bottom: 8px;
+      }
+      .tabel-daftar tbody tr:nth-child(even) { background: rgba(26, 18, 16, 0.35); }
+      .tabel-daftar td { border: none; padding: 2px 0; }
+      .tabel-daftar td[data-label]::before {
+        content: attr(data-label) " · ";
+        font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+        color: var(--emas-muda);
+      }
+      .td-no { display: none; }
+      .td-info { white-space: normal; }
+    }
     .status-muat { min-height: 1.2em; font-size: 0.75rem; color: var(--emas-muda); margin: 10px 0 0; }
     .btn-segarkan {
       font-family: var(--sans); font-weight: 700; font-size: 0.78rem;
@@ -90,8 +129,14 @@
 
       <input id="cari" type="search" placeholder="Cari nama tamu…" autocomplete="off">
 
-      <div class="baris-daftar" id="isi-daftar">
-        <p class="kosong-daftar">Memuat daftar…</p>
+      <div class="tabel-bungkus">
+        <table class="tabel-daftar">
+          <thead>
+            <tr><th>No</th><th>Nama Tamu</th><th>Terakhir Dikirim</th><th>Nomor</th><th>Kirim</th><th>Status</th></tr>
+          </thead>
+          <tbody id="isi-daftar"></tbody>
+        </table>
+        <p class="kosong-daftar" id="pesan-kosong">Memuat daftar…</p>
       </div>
 
       <button class="btn-segarkan" id="btn-segarkan" type="button">↻ Segarkan</button>
@@ -125,47 +170,48 @@
       } catch (err) { return ""; }
     }
 
+    var pesanKosong = document.getElementById("pesan-kosong");
+
+    function sel(tr, teks, cls, label) {
+      var td = document.createElement("td");
+      if (cls) td.className = cls;
+      if (label) td.setAttribute("data-label", label);
+      if (typeof teks === "string") td.textContent = teks;
+      else td.appendChild(teks);
+      tr.appendChild(td);
+      return td;
+    }
+
     function gambar() {
       var q = kunci(cari.value || "");
       isi.textContent = "";
       var tampil = tamu.filter(function (t) { return !q || kunci(t.nama).indexOf(q) !== -1; });
+
+      pesanKosong.hidden = tampil.length > 0;
       if (!tampil.length) {
-        var p = document.createElement("p");
-        p.className = "kosong-daftar";
-        p.textContent = tamu.length ? "Tidak ada nama yang cocok." :
+        pesanKosong.textContent = tamu.length ? "Tidak ada nama yang cocok." :
           "Belum ada catatan — kirim undangan pertama lewat halaman Kirim Undangan.";
-        isi.appendChild(p);
       }
-      tampil.forEach(function (t) {
-        var div = document.createElement("div");
-        div.className = "tamu";
-        var kiri = document.createElement("div");
-        kiri.className = "tamu-kiri";
-        var nm = document.createElement("p");
-        nm.className = "tamu-nama";
-        nm.textContent = t.nama;
-        var info = document.createElement("p");
-        info.className = "tamu-info";
-        var potongan = [tanggal(t.waktu)];
-        if (t.nomor) potongan.push(t.nomor);
-        if (t.jumlahKirim > 1) potongan.push(t.jumlahKirim + "× dikirim");
-        info.textContent = potongan.join(" · ");
-        kiri.appendChild(nm); kiri.appendChild(info);
-        div.appendChild(kiri);
+
+      tampil.forEach(function (t, idx) {
+        var tr = document.createElement("tr");
+        sel(tr, String(idx + 1), "td-no");
+        sel(tr, t.nama, "td-nama");
+        sel(tr, tanggal(t.waktu) || "—", "td-info", "Dikirim");
+        sel(tr, t.nomor || "—", "td-info", "Nomor");
+        sel(tr, t.jumlahKirim + "×", "td-info", "Kirim");
 
         var h = rsvp[kunci(t.nama)];
+        var badge = document.createElement("span");
         if (h) {
-          var b = document.createElement("span");
-          b.className = "wall-badge" + (h === "Hadir" ? " hadir" : "");
-          b.textContent = h === "Hadir" ? "hadir" : "berhalangan";
-          div.appendChild(b);
+          badge.className = "wall-badge" + (h === "Hadir" ? " hadir" : "");
+          badge.textContent = h === "Hadir" ? "hadir" : "berhalangan";
         } else {
-          var s = document.createElement("span");
-          s.className = "badge-belum";
-          s.textContent = "belum konfirmasi";
-          div.appendChild(s);
+          badge.className = "badge-belum";
+          badge.textContent = "belum konfirmasi";
         }
-        isi.appendChild(div);
+        sel(tr, badge, null, "Status");
+        isi.appendChild(tr);
       });
 
       document.getElementById("n-kirim").textContent = tamu.length;
