@@ -37,14 +37,16 @@
     }
     .ringkas b { color: var(--emas-muda); font-size: 1.05rem; display: block; }
 
-    #cari {
+    .saring { display: grid; gap: 8px; margin-bottom: 14px; }
+    #cari, #filter-pengirim {
       width: 100%; box-sizing: border-box;
       font-family: var(--sans); font-size: 0.9rem; color: var(--krem);
       background: rgba(26, 18, 16, 0.4);
       border: 1px solid rgba(212, 175, 55, 0.4);
-      padding: 10px 14px; margin-bottom: 14px;
+      padding: 10px 14px;
     }
-    #cari:focus-visible { outline: 2px solid var(--emas); outline-offset: 1px; }
+    #filter-pengirim option { background: var(--marun-tua); color: var(--krem); }
+    #cari:focus-visible, #filter-pengirim:focus-visible { outline: 2px solid var(--emas); outline-offset: 1px; }
 
     /* tabel daftar */
     .tabel-bungkus { text-align: left; }
@@ -76,7 +78,7 @@
       .daftar-sub { font-size: clamp(0.83rem, 1.1vw, 1rem); }
       .ringkas { font-size: clamp(0.78rem, 1vw, 0.95rem); gap: 34px; }
       .ringkas b { font-size: clamp(1.05rem, 1.6vw, 1.5rem); }
-      #cari { max-width: 420px; }
+      .saring { grid-template-columns: minmax(0, 420px) 220px; justify-content: center; }
       .tabel-daftar th { font-size: clamp(0.66rem, 0.85vw, 0.8rem); padding: 10px 14px; }
       .tabel-daftar td { font-size: clamp(0.85rem, 1.1vw, 1.05rem); padding: 12px 14px; }
       .td-nama { font-size: clamp(0.95rem, 1.25vw, 1.2rem); }
@@ -144,7 +146,12 @@
         <span><b id="n-rsvp">0</b> sudah konfirmasi</span>
       </div>
 
-      <input id="cari" type="search" placeholder="Cari nama tamu…" autocomplete="off">
+      <div class="saring">
+        <input id="cari" type="search" placeholder="Cari nama tamu…" autocomplete="off">
+        <select id="filter-pengirim" aria-label="Saring menurut pengirim">
+          <option value="">Semua pengirim</option>
+        </select>
+      </div>
 
       <div class="tabel-bungkus">
         <table class="tabel-daftar">
@@ -263,10 +270,34 @@
       return td;
     }
 
+    var filterP = document.getElementById("filter-pengirim");
+
+    function isiFilterPengirim() {
+      var pilihan = filterP.value;
+      var unik = {};
+      tamu.forEach(function (t) { if (t.pengirim) unik[t.pengirim] = true; });
+      filterP.textContent = "";
+      var semua = document.createElement("option");
+      semua.value = "";
+      semua.textContent = "Semua pengirim";
+      filterP.appendChild(semua);
+      Object.keys(unik).sort().forEach(function (u) {
+        var op = document.createElement("option");
+        op.value = u;
+        op.textContent = u;
+        filterP.appendChild(op);
+      });
+      filterP.value = unik[pilihan] ? pilihan : "";
+    }
+
     function gambar() {
       var q = kunci(cari.value || "");
+      var fp = filterP.value;
       isi.textContent = "";
-      var tampil = tamu.filter(function (t) { return !q || kunci(t.nama).indexOf(q) !== -1; });
+      var tampil = tamu.filter(function (t) {
+        return (!q || kunci(t.nama).indexOf(q) !== -1) &&
+               (!fp || t.pengirim === fp);
+      });
 
       pesanKosong.hidden = tampil.length > 0;
       if (!tampil.length) {
@@ -331,6 +362,7 @@
             }
           });
           tamu = Object.keys(peta).map(function (k) { return peta[k]; });
+          isiFilterPengirim();
         }
         rsvp = {};
         if (wall.ok) {
@@ -344,6 +376,7 @@
     }
 
     cari.addEventListener("input", gambar);
+    filterP.addEventListener("change", gambar);
     document.getElementById("btn-segarkan").addEventListener("click", muat);
     if (tokenAktif()) { sudahMasuk(); muat(); } else { butuhLogin(); }
   })();
