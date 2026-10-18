@@ -3,8 +3,9 @@
   "use strict";
 
   /* ---------- Nama tamu dari ?to= (aman dari HTML injection: textContent) ---------- */
+  var params = new URLSearchParams(window.location.search);
   var guestEl = document.getElementById("guest-name");
-  var guest = new URLSearchParams(window.location.search).get("to");
+  var guest = params.get("to");
   if (guestEl && guest && guest.trim()) {
     guestEl.textContent = guest.replace(/\+/g, " ").trim();
   }

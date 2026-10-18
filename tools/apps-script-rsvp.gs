@@ -18,7 +18,7 @@
 var SHEET_NAME = "RSVP";
 var SHEET_KIRIM = "KIRIM";
 var SHEET_USER = "PENGIRIM";
-var TOKEN_DETIK = 21600; // token berlaku 6 jam
+var TOKEN_HARI = 7; // token login berlaku 7 hari
 
 function lembar_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -84,9 +84,14 @@ function login_(user, pass) {
     if (String(rows[i][0]).trim().toLowerCase() === user &&
         String(rows[i][1]) === pass && pass !== "") {
       var token = Utilities.getUuid();
-      cache.put("tok_" + token,
-        JSON.stringify({ user: user, nama: String(rows[i][2] || user) }),
-        TOKEN_DETIK);
+      // PropertiesService: tahan lama (CacheService bisa terhapus sewaktu-waktu)
+      bersihkanTokenKadaluarsa_();
+      PropertiesService.getScriptProperties().setProperty("tok_" + token,
+        JSON.stringify({
+          user: user,
+          nama: String(rows[i][2] || user),
+          exp: Date.now() + TOKEN_HARI * 86400000
+        }));
       cache.remove("gagal_" + user);
       return { ok: true, token: token, nama: String(rows[i][2] || user), user: user };
     }
@@ -97,9 +102,30 @@ function login_(user, pass) {
 
 function pengirimDariToken_(token) {
   if (!token) return null;
-  var isi = CacheService.getScriptCache().get("tok_" + String(token).slice(0, 64));
+  var kunci = "tok_" + String(token).slice(0, 64);
+  var props = PropertiesService.getScriptProperties();
+  var isi = props.getProperty(kunci);
   if (!isi) return null;
-  try { return JSON.parse(isi); } catch (err) { return null; }
+  try {
+    var data = JSON.parse(isi);
+    if (!data.exp || data.exp < Date.now()) {
+      props.deleteProperty(kunci);
+      return null;
+    }
+    return data;
+  } catch (err) { return null; }
+}
+
+function bersihkanTokenKadaluarsa_() {
+  var props = PropertiesService.getScriptProperties();
+  var semua = props.getProperties();
+  for (var k in semua) {
+    if (k.indexOf("tok_") !== 0) continue;
+    try {
+      var d = JSON.parse(semua[k]);
+      if (!d.exp || d.exp < Date.now()) props.deleteProperty(k);
+    } catch (err) { props.deleteProperty(k); }
+  }
 }
 
 /* ---------- Endpoint ---------- */
@@ -161,7 +187,7 @@ function doPost(e) {
       if (!pengirim) return json_({ ok: false, butuhLogin: true });
       var namaK = String(p.nama || "").trim().slice(0, 80);
       var nomor = String(p.nomor || "").replace(/[^0-9]/g, "").slice(0, 20);
-      var cara = p.cara === "salin" ? "salin" : "wa";
+      var cara = (p.cara === "salin" || p.cara === "link") ? p.cara : "wa";
       if (namaK) {
         lembarKirim_().appendRow([new Date(), teks_(namaK), nomor, cara, pengirim.user]);
         ok = true;

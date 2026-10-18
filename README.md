@@ -37,9 +37,9 @@ ringan dibuka dari WhatsApp di ponsel.
                                   ucapan.html (TV di lokasi baralek)
 ```
 
-1. **Keluarga menyebar undangan** lewat `kirim.html`: isi nama tamu (dan
-   nomor WA bila ada) → pratinjau pesan lengkap muncul → tombol membuka
-   WhatsApp dengan pesan + link unik
+1. **Keluarga menyebar undangan** lewat `kirim.html` (wajib login): isi
+   nama tamu (dan nomor WA bila ada) → pratinjau pesan lengkap muncul →
+   tombol membuka WhatsApp dengan pesan + link unik
    `…/wedding_invitations/?to=Nama+Tamu`.
 2. **Tamu membuka link**: cover pintu Minang menampilkan namanya
    ("Kepada Yth. …"), tombol *Buka Undangan* membelah pintu, musik

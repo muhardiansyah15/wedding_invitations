@@ -4,6 +4,8 @@
    Gonjong Rumah Gadang sebagai ornamen · pita songket via CSS pattern
    ========================================================================== */
 
+[hidden] { display: none !important; }
+
 :root {
   --marun: #5c1420;
   --marun-tua: #430e18;
