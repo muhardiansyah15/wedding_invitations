@@ -539,6 +539,23 @@ body {
 .wall-badge.hadir { color: var(--emas-muda); border-color: var(--emas); }
 .wall-pesan { margin: 6px 0 0; font-size: 0.85rem; color: var(--krem-redup); line-height: 1.6; }
 
+/* Turut mengundang */
+.turut { list-style: none; margin: 0 auto; padding: 0; max-width: 320px; }
+.turut li {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: 10px 0;
+}
+.turut li + li { border-top: 1px solid rgba(212, 175, 55, 0.18); }
+.turut-nama {
+  font-family: var(--serif); font-weight: 600; font-size: 1.02rem;
+  color: var(--krem);
+}
+.turut-nama i { font-style: normal; color: var(--emas-muda); }
+.turut-ket {
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--krem-redup);
+}
+
 /* --------------------------------------------------------------------------
    Penutup & footer
    -------------------------------------------------------------------------- */
