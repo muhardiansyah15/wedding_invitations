@@ -130,5 +130,6 @@ https://muhardiansyah15.github.io/wedding_invitations/?to=Nama+Tamu+%26+Partner
   [Aural Archipelago](https://www.auralarchipelago.com/)
 - Logo DANA: Wikimedia Commons (domain publik), hanya penanda metode
   pengiriman tando kasih
-- Favicon gonjong & ornamen SVG (gonjong, kaluak paku, songket): dibuat
+- Favicon & logo footer: blok ukiran "HARDI" (hardi-blocs.png) karya
+  Muhardiansyah; ornamen SVG (gonjong, kaluak paku, songket) dibuat
   sendiri untuk undangan ini

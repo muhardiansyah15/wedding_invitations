@@ -563,16 +563,28 @@ body {
 .family { color: var(--krem-redup); font-size: 0.85rem; margin: 0 0 26px; }
 .foot {
   text-align: center;
-  padding: 18px 20px 26px;
+  padding: 26px 20px 30px;
   border-top: 1px solid rgba(212, 175, 55, 0.18);
   font-size: 0.75rem;
   color: var(--krem-redup);
 }
 .foot a { color: var(--emas-muda); }
-.ig-link { margin: 6px 0 0; }
+.foot-baris {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.foot-baris > div { text-align: center; }
+.foot-baris p { margin: 0; }
+.foot-logo {
+  width: 46px; height: 46px;
+  background: var(--krem); padding: 3px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  outline: 1px solid rgba(212, 175, 55, 0.2);
+  outline-offset: 3px;
+}
+.ig-link { margin: 7px 0 0 !important; }
 .ig-link a { text-decoration: none; letter-spacing: 0.03em; }
 .ig-link a:hover { text-decoration: underline; }
-.music-credit { margin: 4px 0 0; font-size: 0.68rem; opacity: 0.8; }
+.music-credit { margin: 14px 0 0; font-size: 0.68rem; opacity: 0.8; }
 
 /* --------------------------------------------------------------------------
    Reveal saat scroll & aksesibilitas gerak
