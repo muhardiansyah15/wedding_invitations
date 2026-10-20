@@ -162,7 +162,8 @@ function doGet(e) {
     data.push({
       nama: String(rows[i][1]),
       hadir: String(rows[i][2]),
-      ucapan: String(rows[i][4] || "")
+      ucapan: String(rows[i][4] || ""),
+      waktu: rows[i][0] ? new Date(rows[i][0]).toISOString() : ""
     });
   }
   return json_({ ok: true, data: data });

@@ -87,6 +87,25 @@
       background: rgba(26, 18, 16, 0.35);
       padding: clamp(12px, 1.4vw, 18px) clamp(14px, 1.6vw, 20px);
       animation: muncul 0.6s ease both;
+      display: flex; gap: clamp(10px, 1.2vw, 14px); align-items: flex-start;
+    }
+    .kartu-ava {
+      flex: 0 0 auto;
+      width: clamp(30px, 2.6vw, 42px); height: clamp(30px, 2.6vw, 42px);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-weight: 600;
+      font-size: clamp(0.95rem, 1.5vw, 1.25rem);
+      color: var(--marun-tua);
+      background: linear-gradient(135deg, var(--emas-muda), var(--emas));
+      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.5);
+    }
+    .kartu-body { flex: 1; min-width: 0; }
+    .kartu-kepala { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .kartu-waktu {
+      flex: 0 0 auto;
+      font-size: clamp(0.62rem, 1vw, 0.8rem);
+      color: var(--krem-redup); opacity: 0.85;
     }
     @keyframes muncul { from { opacity: 0; transform: translateY(14px); } }
     .kartu-doa .dari {
@@ -205,9 +224,32 @@
       return kolom * baris;
     }
 
+    function waktuRelatif(iso) {
+      if (!iso) return "";
+      var t = new Date(iso).getTime();
+      if (isNaN(t)) return "";
+      var s = Math.floor((Date.now() - t) / 1000);
+      if (s < 60) return "baru saja";
+      if (s < 3600) return Math.floor(s / 60) + " menit lalu";
+      if (s < 86400) return Math.floor(s / 3600) + " jam lalu";
+      if (s < 7 * 86400) return Math.floor(s / 86400) + " hari lalu";
+      return new Date(iso).toLocaleDateString("id-ID", { day: "numeric", month: "short" });
+    }
+
     function kartu(d) {
       var div = document.createElement("div");
       div.className = "kartu-doa";
+
+      var ava = document.createElement("span");
+      ava.className = "kartu-ava";
+      ava.setAttribute("aria-hidden", "true");
+      ava.textContent = (d.nama || "?").trim().charAt(0).toUpperCase();
+      div.appendChild(ava);
+
+      var body = document.createElement("div");
+      body.className = "kartu-body";
+      var kepala = document.createElement("div");
+      kepala.className = "kartu-kepala";
       var dari = document.createElement("p");
       dari.className = "dari";
       dari.textContent = d.nama + " ";
@@ -215,13 +257,22 @@
       badge.className = "wall-badge" + (d.hadir === "Hadir" ? " hadir" : "");
       badge.textContent = d.hadir === "Hadir" ? "hadir" : "berhalangan";
       dari.appendChild(badge);
-      div.appendChild(dari);
+      kepala.appendChild(dari);
+      var wkt = waktuRelatif(d.waktu);
+      if (wkt) {
+        var w = document.createElement("span");
+        w.className = "kartu-waktu";
+        w.textContent = wkt;
+        kepala.appendChild(w);
+      }
+      body.appendChild(kepala);
       if (d.ucapan) {
         var p = document.createElement("p");
         p.className = "isi";
         p.textContent = d.ucapan;
-        div.appendChild(p);
+        body.appendChild(p);
       }
+      div.appendChild(body);
       return div;
     }
 

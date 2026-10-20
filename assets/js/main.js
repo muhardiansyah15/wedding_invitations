@@ -126,9 +126,32 @@
     });
   });
 
+  function waktuRelatif(iso) {
+    if (!iso) return "";
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return "";
+    var s = Math.floor((Date.now() - t) / 1000);
+    if (s < 60) return "baru saja";
+    if (s < 3600) return Math.floor(s / 60) + " menit lalu";
+    if (s < 86400) return Math.floor(s / 3600) + " jam lalu";
+    if (s < 7 * 86400) return Math.floor(s / 86400) + " hari lalu";
+    return new Date(iso).toLocaleDateString("id-ID", { day: "numeric", month: "short" });
+  }
+
   function itemWall(d) {
     var div = document.createElement("div");
     div.className = "wall-item";
+
+    var ava = document.createElement("span");
+    ava.className = "wall-avatar";
+    ava.setAttribute("aria-hidden", "true");
+    ava.textContent = (d.nama || "?").trim().charAt(0).toUpperCase();
+    div.appendChild(ava);
+
+    var body = document.createElement("div");
+    body.className = "wall-body";
+    var kepala = document.createElement("div");
+    kepala.className = "wall-kepala";
     var nama = document.createElement("p");
     nama.className = "wall-nama";
     nama.textContent = d.nama;
@@ -136,13 +159,22 @@
     badge.className = "wall-badge" + (d.hadir === "Hadir" ? " hadir" : "");
     badge.textContent = d.hadir === "Hadir" ? "InsyaAllah hadir" : "berhalangan";
     nama.appendChild(badge);
-    div.appendChild(nama);
+    kepala.appendChild(nama);
+    var wkt = waktuRelatif(d.waktu);
+    if (wkt) {
+      var w = document.createElement("span");
+      w.className = "wall-waktu";
+      w.textContent = wkt;
+      kepala.appendChild(w);
+    }
+    body.appendChild(kepala);
     if (d.ucapan) {
       var p = document.createElement("p");
       p.className = "wall-pesan";
       p.textContent = d.ucapan;
-      div.appendChild(p);
+      body.appendChild(p);
     }
+    div.appendChild(body);
     return div;
   }
 

@@ -531,7 +531,19 @@ body {
   border: 1px solid rgba(212, 175, 55, 0.35);
   background: rgba(26, 18, 16, 0.3);
   padding: 12px 14px;
+  display: flex; gap: 10px; align-items: flex-start;
 }
+.wall-avatar {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-weight: 600; font-size: 1rem;
+  color: var(--marun-tua);
+  background: linear-gradient(135deg, var(--emas-muda), var(--emas));
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.5);
+}
+.wall-body { flex: 1; min-width: 0; }
+.wall-kepala { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.wall-waktu { flex: 0 0 auto; font-size: 0.66rem; color: var(--krem-redup); opacity: 0.85; }
 .wall-nama { font-weight: 700; font-size: 0.88rem; color: var(--emas-muda); margin: 0; }
 .wall-badge {
   display: inline-block; margin-left: 8px;
