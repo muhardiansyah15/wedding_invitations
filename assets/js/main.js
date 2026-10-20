@@ -44,7 +44,7 @@
   document.body.style.overflow = "hidden";
 
   /* ---------- Hitung mundur ke resepsi (16 Maret 2027, WIB) ---------- */
-  var target = new Date("2027-03-17T10:00:00+07:00").getTime();
+  var target = new Date("2027-03-17T09:00:00+07:00").getTime();
   var el = {
     hari: document.getElementById("cd-hari"),
     jam: document.getElementById("cd-jam"),

@@ -375,6 +375,7 @@ body {
 .ev-time, .ev-loc { color: var(--krem-redup); font-size: 0.88rem; margin: 0 0 2px; }
 .ev-loc { margin-bottom: 16px; }
 
+.event-card .btn-line { margin: 2px 3px 0; }
 .btn-line {
   display: inline-block;
   font-size: 0.82rem;

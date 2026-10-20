@@ -5,9 +5,9 @@ Minangkabau — palet marawa (marun · emas · hitam), ornamen gonjong Rumah
 Gadang, kaluak paku, pita motif songket, dan pepatah Minang. Dibuat dengan
 ♥ oleh sang kakak, [ajo Muhardiansyah](https://muhardiansyah15.github.io/).
 
-- **Akad Nikah:** Jumat, 12 Maret 2027
-- **Resepsi 1 (kediaman mempelai wanita):** Rabu, 17 Maret 2027, 10.00 WIB
-- **Resepsi 2 (kediaman mempelai pria):** Kamis, 18 Maret 2027, 10.00 WIB
+- **Akad Nikah:** Selasa, 16 Maret 2027, 09.00 WIB — kediaman mempelai wanita
+- **Resepsi 1 (kediaman mempelai wanita):** Rabu, 17 Maret 2027, 09.00 WIB
+- **Resepsi 2 (kediaman mempelai pria):** Kamis, 18 Maret 2027, 09.00 WIB
 
 Situs statis murni (HTML/CSS/JS, tanpa framework & tanpa server berbayar) —
 ringan dibuka dari WhatsApp di ponsel.
@@ -106,7 +106,6 @@ Letakkan file apa adanya ke foldernya, nanti dioptimalkan & dipasang:
 
 Cari teks `…………` / "menyusul" di `index.html`, lalu isi:
 
-1. **Waktu & lokasi Akad Nikah** + link Google Maps
 2. **Foto Pira** (section Pasangan Mempelai)
 3. **Bank & nomor rekening** (Tando Kasih — DANA sudah terisi)
 4. **Foto galeri** (masih 2 dari 4 slot)
